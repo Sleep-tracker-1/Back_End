@@ -1,0 +1,71 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "import",
+    "optimize-regex",
+    // "functional",
+    "jest",
+    "jest-formatting",
+    "@typescript-eslint",
+    "@typescript-eslint/eslint-plugin"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-prettier",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "airbnb-base",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "plugin:jest-formatting/recommended",
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "eslint-config-prettier/@typescript-eslint",
+    "prettier/@typescript-eslint",
+    // must be last
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "strict": ["error", "never"],
+    "no-console": "off",
+    "optimize-regex/optimize-regex": "warn",
+    "spaced-comment": ["error", "always", { "markers": ["/"] }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ],
+    "node/no-unsupported-features/es-syntax": "off",
+    "node/no-missing-import": [
+      "error",
+      {
+        "resolvePaths": ["."],
+        "tryExtensions": [".js", ".ts", ".json", ".node"]
+      }
+    ]
+  },
+  "env": {
+    "browser": false,
+    "es6": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    }
+  }
+}
