@@ -26,4 +26,4 @@ const generateTimestamps = () => {
 }
 
 exports.seed = (knex: Knex): QueryBuilder =>
-  knex('bedhours').insert(generateTimestamps())
+  knex('bedhours').insert(generateTimestamps().flat())
