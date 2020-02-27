@@ -33,9 +33,10 @@ const register = async (
 
   try {
     const registeredUser = await insert(hashedUser)
+    console.log(registeredUser)
     res.status(201).json({
-      user: registeredUser.data,
-      token: generateToken(registeredUser.data),
+      user: registeredUser,
+      token: generateToken(registeredUser),
     })
   } catch (error) {
     next(
