@@ -6,13 +6,13 @@ import cors from 'cors'
 
 import errorHandler from './middleware/errorHandler'
 import apiRouter from '../api/api.router'
-// import swaggerDocument from '../openapi.json'
+import swaggerDocument from '../openapi.json'
 
 const server = express()
 
 server.use(helmet(), morgan('dev'), json(), cors())
 
-// server.use('/docs', serve, setup(swaggerDocument))
+server.use('/docs', serve, setup(swaggerDocument))
 server.use('/api', apiRouter)
 
 server.use(errorHandler)
