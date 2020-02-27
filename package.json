@@ -18,6 +18,7 @@
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(json|js|ts)\"",
     "seed:run": "npx knex seed:run",
     "server": "tsc && nodemon ./build/index.js",
+    "start": "tsc && node ./build/index.js",
     "test": "cross-env NODE_ENV=testing npx knex migrate:latest && cross-env NODE_ENV=testing npx knex seed:run && jest --watch --runInBand --detectOpenHandles",
     "validate": "npm-run-all --parallel check-format lint"
   },
@@ -82,5 +83,8 @@
     "sort-package-json": "^1.40.0",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.2"
+  },
+  "engines": {
+    "node": "13.3.0"
   }
 }
