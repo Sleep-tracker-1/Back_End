@@ -1,0 +1,284 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://sleep-tracker-server.herokuapp.com/docs"
+    }
+  ],
+  "info": {
+    "description": "Sleep Tracker API",
+    "version": "1.0.0",
+    "title": "Sleep Tracker",
+    "contact": {
+      "email": "feller.westley@gmail.com"
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Registers a new user",
+        "operationId": "registerUser",
+        "description": "Registers a new user and adds them to the users database",
+        "responses": {
+          "201": {
+            "description": "User registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["id", "username", "password"],
+                  "uniqueItems": true,
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "frozenburrito"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "supermegasecurecan'tcrackthis"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["Missing username", "Missing password"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "The user could not be registered"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "frozenburrito"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "supermegasecurecan'tcrackthis"
+                  }
+                }
+              }
+            }
+          },
+          "description": "User to register"
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Logs in a user",
+        "operationId": "loginUser",
+        "description": "Logs in an existing user",
+        "responses": {
+          "201": {
+            "description": "User logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["id", "username", "password"],
+                  "uniqueItems": true,
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "frozenburrito"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "supermegasecurecan'tcrackthis"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["Missing username", "Missing password"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "The user could not be logged in"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "frozenburrito"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "supermegasecurecan'tcrackthis"
+                  }
+                }
+              }
+            }
+          },
+          "description": "User to login"
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "Retrieves logged in user info",
+        "operationId": "retrieveOneUsers",
+        "description": "Get the information for a logged in user",
+        "responses": {
+          "200": {
+            "description": "User",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "username"],
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "username": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 1,
+                      "username": "BurritoMan"
+                    },
+                    {
+                      "id": "2,",
+                      "username": "Orangejuice"
+                    },
+                    {
+                      "id": "3,",
+                      "username": "Poptart"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Could not retrieve users"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["id", "username", "password"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "example": "frozenburrito"
+          },
+          "password": {
+            "type": "string",
+            "example": "supermegasecurecan'tcrackthis"
+          }
+        }
+      }
+    }
+  }
+}
