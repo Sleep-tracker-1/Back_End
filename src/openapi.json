@@ -29,17 +29,25 @@
                   "required": ["id", "username", "password"],
                   "uniqueItems": true,
                   "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
+                    "user": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "username": {
+                            "type": "string",
+                            "example": "frozenburrito"
+                          }
+                        }
+                      }
                     },
-                    "username": {
+                    "token": {
                       "type": "string",
-                      "example": "frozenburrito"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "supermegasecurecan'tcrackthis"
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODI3Nzc3NDMsImV4cCI6MTU4Mjg2NDE0M30.Pcg1alJ40SrojviGmxQZm_doJqm6WWpUyRH_hoUJ3XY"
                     }
                   }
                 }
@@ -53,6 +61,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Submitted data is incomplete or incorrect"
+                    },
                     "errors": {
                       "type": "array",
                       "items": {
@@ -72,9 +84,50 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "name": {
                       "type": "string",
-                      "example": "The user could not be registered"
+                      "example": "DatabaseError"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Registration failed"
+                    },
+                    "dbMessage": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "error"
+                        },
+                        "length": {
+                          "type": "integer",
+                          "example": 104
+                        },
+                        "severity": {
+                          "type": "string",
+                          "example": "ERROR"
+                        },
+                        "code": {
+                          "type": "string",
+                          "example": "42P01"
+                        },
+                        "position": {
+                          "type": "string",
+                          "example": "13"
+                        },
+                        "file": {
+                          "type": "string",
+                          "example": "parse_relation.c"
+                        },
+                        "line": {
+                          "type": "string",
+                          "example": "1180"
+                        },
+                        "routine": {
+                          "type": "string",
+                          "example": "parserOpenTable"
+                        }
+                      }
                     }
                   }
                 }
@@ -117,20 +170,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["id", "username", "password"],
+                  "required": ["message", "token"],
                   "uniqueItems": true,
                   "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "username": {
+                    "message": {
                       "type": "string",
-                      "example": "frozenburrito"
+                      "example": "Welcome frozenburrito!"
                     },
-                    "password": {
+                    "token": {
                       "type": "string",
-                      "example": "supermegasecurecan'tcrackthis"
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMiwidXNlcm5hbWUiOiJzY291dCIsImlhdCI6MTU4Mjc3ODI1MywiZXhwIjoxNTgyODY0NjUzfQ.Nwhc4VSi4HS05AhERcIGMI4jgdHnhyaEHvnL7xDJ-sQ"
                     }
                   }
                 }
@@ -144,6 +193,10 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Submitted data is incomplete or incorrect"
+                    },
                     "errors": {
                       "type": "array",
                       "items": {
@@ -163,9 +216,50 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "name": {
                       "type": "string",
-                      "example": "The user could not be logged in"
+                      "example": "DatabaseError"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Login failed"
+                    },
+                    "dbMessage": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "error"
+                        },
+                        "length": {
+                          "type": "integer",
+                          "example": 104
+                        },
+                        "severity": {
+                          "type": "string",
+                          "example": "ERROR"
+                        },
+                        "code": {
+                          "type": "string",
+                          "example": "42P01"
+                        },
+                        "position": {
+                          "type": "string",
+                          "example": "13"
+                        },
+                        "file": {
+                          "type": "string",
+                          "example": "parse_relation.c"
+                        },
+                        "line": {
+                          "type": "string",
+                          "example": "1180"
+                        },
+                        "routine": {
+                          "type": "string",
+                          "example": "parserOpenTable"
+                        }
+                      }
                     }
                   }
                 }
@@ -207,34 +301,44 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": ["id", "username"],
-                    "properties": {
-                      "id": {
-                        "type": "integer",
-                        "minimum": 1
-                      },
-                      "username": {
+                  "type": "object",
+                  "required": ["id", "username"],
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "id": 1,
+                  "username": "BurritoMan"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to authenticate"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
                         "type": "string"
-                      }
+                      },
+                      "example": ["Missing authentication token"]
                     }
-                  },
-                  "example": [
-                    {
-                      "id": 1,
-                      "username": "BurritoMan"
-                    },
-                    {
-                      "id": "2,",
-                      "username": "Orangejuice"
-                    },
-                    {
-                      "id": "3,",
-                      "username": "Poptart"
-                    }
-                  ]
+                  }
                 }
               }
             }
@@ -246,9 +350,50 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "name": {
                       "type": "string",
-                      "example": "Could not retrieve users"
+                      "example": "DatabaseError"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not retreive user"
+                    },
+                    "dbMessage": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "error"
+                        },
+                        "length": {
+                          "type": "integer",
+                          "example": 104
+                        },
+                        "severity": {
+                          "type": "string",
+                          "example": "ERROR"
+                        },
+                        "code": {
+                          "type": "string",
+                          "example": "42P01"
+                        },
+                        "position": {
+                          "type": "string",
+                          "example": "13"
+                        },
+                        "file": {
+                          "type": "string",
+                          "example": "parse_relation.c"
+                        },
+                        "line": {
+                          "type": "string",
+                          "example": "1180"
+                        },
+                        "routine": {
+                          "type": "string",
+                          "example": "parserOpenTable"
+                        }
+                      }
                     }
                   }
                 }
