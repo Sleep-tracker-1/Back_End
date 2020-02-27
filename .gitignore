@@ -3,6 +3,5 @@ node_modules/
 .vscode
 .idea/
 yarn.lock
-build/
 .env
 typings/

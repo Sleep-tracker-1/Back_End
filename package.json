@@ -8,11 +8,9 @@
   "main": "./build/index.js",
   "typings": "./build/index",
   "scripts": {
-    "build": "tsc",
     "check-format": "yarn run prettier --ignore-path .gitignore --list-different",
     "check-types": "tsc --watch",
     "format": "yarn run prettier --ignore-path .gitignore --write",
-    "postinstall": "yarn run build",
     "lint": "eslint --ignore-path .gitignore --ext .ts .",
     "migrate:latest": "npx knex migrate:latest",
     "migrate:rollback": "npx knex migrate:rollback",
