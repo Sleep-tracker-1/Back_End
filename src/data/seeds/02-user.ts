@@ -2,7 +2,7 @@ import Knex, { QueryBuilder } from 'knex'
 import faker from 'faker'
 
 const generateUsers = (): { username: string }[] =>
-  [...Array(457)].map(_user => {
+  [...Array(50)].map(_user => {
     return {
       username: faker.internet.userName(),
     }
