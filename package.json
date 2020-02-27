@@ -8,9 +8,11 @@
   "main": "./build/index.js",
   "typings": "./build/index",
   "scripts": {
+    "build": "tsc",
     "check-format": "yarn run prettier --ignore-path .gitignore --list-different",
     "check-types": "tsc --watch",
     "format": "yarn run prettier --ignore-path .gitignore --write",
+    "postinstall": "yarn run build",
     "lint": "eslint --ignore-path .gitignore --ext .ts .",
     "migrate:latest": "npx knex migrate:latest",
     "migrate:rollback": "npx knex migrate:rollback",
@@ -18,7 +20,7 @@
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(json|js|ts)\"",
     "seed:run": "npx knex seed:run",
     "server": "tsc && nodemon ./build/index.js",
-    "start": "yarn tsc && node ./build/index.js",
+    "start": "node ./build/index.js",
     "test": "cross-env NODE_ENV=testing npx knex migrate:latest && cross-env NODE_ENV=testing npx knex seed:run && jest --watch --runInBand --detectOpenHandles",
     "validate": "npm-run-all --parallel check-format lint"
   },
@@ -85,6 +87,7 @@
     "typescript": "^3.8.2"
   },
   "engines": {
-    "node": "13.3.0"
+    "node": "13.3.0",
+    "yarn": "1.22.0"
   }
 }
