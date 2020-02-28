@@ -304,6 +304,9 @@
           "400": {
             "$ref": "#/components/responses/MissingToken"
           },
+          "401": {
+            "$ref": "#/components/responses/InvalidAuthorizationToken"
+          },
           "500": {
             "description": "server error",
             "content": {
@@ -358,6 +361,22 @@
                     "type": "string"
                   },
                   "example": ["Missing authentication token"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvalidAuthorizationToken": {
+        "description": "Invalid authorization token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "You are not authorized to access this endpoint"
                 }
               }
             }
