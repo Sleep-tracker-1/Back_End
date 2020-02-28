@@ -34,8 +34,8 @@ const register = async (
   try {
     const registeredUser = await insert(hashedUser)
     res.status(201).json({
-      user: registeredUser.data,
-      token: generateToken(registeredUser.data),
+      userInfo: registeredUser[0],
+      token: generateToken(registeredUser),
     })
   } catch (error) {
     next(
@@ -63,7 +63,7 @@ const login = async (
         token: generateToken(userToLogin),
       })
     } else {
-      next(new UnauthorizedError({ message: 'You shall not pass!' }))
+      next(new UnauthorizedError())
     }
   } catch (error) {
     next(

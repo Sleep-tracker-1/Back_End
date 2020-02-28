@@ -7,7 +7,7 @@ import usersRouter from '../resources/users/users.router'
 const router = Router()
 
 router.use('/auth', authRouter)
-router.use('/users', usersRouter)
+router.use('/user', usersRouter)
 
 router.route('/').get(controllers.apiRoot)
 

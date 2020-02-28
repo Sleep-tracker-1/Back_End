@@ -2,19 +2,33 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "https://sleep-tracker-server.herokuapp.com/docs"
+      "url": "https://sleep-tracker-server.herokuapp.com"
     }
   ],
   "info": {
     "description": "Sleep Tracker API",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "Sleep Tracker",
     "contact": {
-      "email": "feller.westley@gmail.com"
+      "email": "feller.westley@gmail.com",
+      "name": "Westley Feller"
     }
   },
   "paths": {
-    "/auth/register": {
+    "/docs": {
+      "get": {
+        "summary": "API Documentation (You are here)",
+        "operationId": "retrieveDocs",
+        "description": "Documentation for the Sleep Tracker API",
+        "responses": {
+          "200": {
+            "description": "Documentation site for the API ***You are here***"
+          }
+        },
+        "tags": ["Documentation"]
+      }
+    },
+    "/api/auth/register": {
       "post": {
         "summary": "Registers a new user",
         "operationId": "registerUser",
@@ -26,20 +40,39 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["id", "username", "password"],
+                  "required": [
+                    "id",
+                    "username",
+                    "password",
+                    "firstName",
+                    "email"
+                  ],
                   "uniqueItems": true,
                   "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
+                    "userInfo": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "frozenburrito"
+                        },
+                        "firstName": {
+                          "type": "string",
+                          "example": "George"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "George87@gmail.com"
+                        }
+                      }
                     },
-                    "username": {
+                    "token": {
                       "type": "string",
-                      "example": "frozenburrito"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example": "supermegasecurecan'tcrackthis"
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODI3Nzc3NDMsImV4cCI6MTU4Mjg2NDE0M30.Pcg1alJ40SrojviGmxQZm_doJqm6WWpUyRH_hoUJ3XY"
                     }
                   }
                 }
@@ -53,12 +86,22 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Submitted data is incomplete or incorrect"
+                    },
                     "errors": {
                       "type": "array",
                       "items": {
                         "type": "string"
                       },
-                      "example": ["Missing username", "Missing password"]
+                      "example": [
+                        "Missing username",
+                        "Missing password",
+                        "Missing first name",
+                        "Missing email",
+                        "Password must be at least 6 characters"
+                      ]
                     }
                   }
                 }
@@ -72,9 +115,17 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "name": {
                       "type": "string",
-                      "example": "The user could not be registered"
+                      "example": "DatabaseError"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Registration failed"
+                    },
+                    "dbMessage": {
+                      "type": "string",
+                      "example": "Key (username)=(burritoman) already exists."
                     }
                   }
                 }
@@ -96,41 +147,46 @@
                   "password": {
                     "type": "string",
                     "example": "supermegasecurecan'tcrackthis"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "George"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "George87@gmail.com"
                   }
                 }
               }
             }
           },
           "description": "User to register"
-        }
+        },
+        "tags": ["Auth"]
       }
     },
-    "/auth/login": {
+    "/api/auth/login": {
       "post": {
         "summary": "Logs in a user",
         "operationId": "loginUser",
         "description": "Logs in an existing user",
         "responses": {
-          "201": {
+          "200": {
             "description": "User logged in",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["id", "username", "password"],
+                  "required": ["message", "token"],
                   "uniqueItems": true,
                   "properties": {
-                    "id": {
-                      "type": "integer",
-                      "example": 1
-                    },
-                    "username": {
+                    "message": {
                       "type": "string",
-                      "example": "frozenburrito"
+                      "example": "Welcome frozenburrito!"
                     },
-                    "password": {
+                    "token": {
                       "type": "string",
-                      "example": "supermegasecurecan'tcrackthis"
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMiwidXNlcm5hbWUiOiJzY291dCIsImlhdCI6MTU4Mjc3ODI1MywiZXhwIjoxNTgyODY0NjUzfQ.Nwhc4VSi4HS05AhERcIGMI4jgdHnhyaEHvnL7xDJ-sQ"
                     }
                   }
                 }
@@ -144,12 +200,32 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Submitted data is incomplete or incorrect"
+                    },
                     "errors": {
                       "type": "array",
                       "items": {
                         "type": "string"
                       },
                       "example": ["Missing username", "Missing password"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid user credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
                     }
                   }
                 }
@@ -163,9 +239,16 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "name": {
                       "type": "string",
-                      "example": "The user could not be logged in"
+                      "example": "DatabaseError"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Login failed"
+                    },
+                    "dbMessage": {
+                      "type": "object"
                     }
                   }
                 }
@@ -193,51 +276,36 @@
             }
           },
           "description": "User to login"
-        }
+        },
+        "tags": ["Auth"]
       }
     },
-    "/user": {
+    "/api/user": {
       "get": {
         "summary": "Retrieves logged in user info",
-        "operationId": "retrieveOneUsers",
+        "operationId": "getLoggedInUser",
         "description": "Get the information for a logged in user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "User",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": ["id", "username"],
-                    "properties": {
-                      "id": {
-                        "type": "integer",
-                        "minimum": 1
-                      },
-                      "username": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "id": 1,
-                      "username": "BurritoMan"
-                    },
-                    {
-                      "id": "2,",
-                      "username": "Orangejuice"
-                    },
-                    {
-                      "id": "3,",
-                      "username": "Poptart"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/MissingToken"
+          },
+          "401": {
+            "$ref": "#/components/responses/InvalidAuthorizationToken"
           },
           "500": {
             "description": "server error",
@@ -246,24 +314,80 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "name": {
                       "type": "string",
-                      "example": "Could not retrieve users"
+                      "example": "DatabaseError"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Could not retreive user"
+                    },
+                    "dbMessage": {
+                      "type": "object"
                     }
                   }
                 }
               }
             }
           }
-        }
+        },
+        "tags": ["User"]
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "MissingToken": {
+        "description": "Missing authentication token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Failed to authenticate"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["Missing authentication token"]
+                }
+              }
+            }
+          }
+        }
+      },
+      "InvalidAuthorizationToken": {
+        "description": "Invalid authorization token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "You are not authorized to access this endpoint"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["id", "username", "password"],
+        "required": ["id", "username", "password", "firstName", "email"],
         "properties": {
           "id": {
             "type": "integer",
@@ -276,8 +400,17 @@
           "password": {
             "type": "string",
             "example": "supermegasecurecan'tcrackthis"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "George"
+          },
+          "email": {
+            "type": "string",
+            "example": "George87@gmail.com"
           }
-        }
+        },
+        "description": "Sleep tracker user"
       }
     }
   }

@@ -29,7 +29,7 @@ const checkAuth = (
   } else if (token) {
     jwt.verify(token, secret, (error, decodedJwt) => {
       if (error) {
-        next(new UnauthorizedError({ message: 'You shall not pass!' }))
+        next(new UnauthorizedError())
       } else {
         req.decodedJwt = decodedJwt as DecodedJwt
         next()
