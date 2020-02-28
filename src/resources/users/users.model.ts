@@ -22,8 +22,16 @@ export const findById = (id: Id): QueryBuilder<User> =>
     .where({ id: Number(id) })
     .first()
 
-export const insert = (user: Omit<User, 'id'>): QueryBuilder<[User]> =>
-  db('users').insert(user, ['id', 'username', 'first_name', 'email'])
+export const insert = ({
+  firstName,
+  ...rest
+}: Omit<User, 'id'>): QueryBuilder<[User]> =>
+  db('users').insert({ first_name: firstName, ...rest }, [
+    'id',
+    'username',
+    'first_name',
+    'email',
+  ])
 
 export const update = (id: Id, user: Omit<User, 'id'>): QueryBuilder<User> =>
   db('users')
