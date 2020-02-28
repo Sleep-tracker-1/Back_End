@@ -7,6 +7,8 @@ export type User = {
   id: Id
   username: string
   password: string
+  firstName: string
+  email: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,12 +23,12 @@ export const findById = (id: Id): QueryBuilder<User> =>
     .first()
 
 export const insert = (user: Omit<User, 'id'>): QueryBuilder<[User]> =>
-  db('users').insert(user, ['id', 'username'])
+  db('users').insert(user, ['id', 'username', 'first_name', 'email'])
 
 export const update = (id: Id, user: Omit<User, 'id'>): QueryBuilder<User> =>
   db('users')
     .where({ id: Number(id) })
-    .update(user, ['id', 'username'])
+    .update(user, ['id', 'username', 'first_name', 'email'])
 
 export const remove = (id: Id): QueryBuilder<number> =>
   db('users')
