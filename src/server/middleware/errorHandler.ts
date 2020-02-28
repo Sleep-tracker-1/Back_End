@@ -16,11 +16,12 @@ export class DatabaseError extends Error {
   dbMessage: {
     errno: number
     code: string
+    detail: string
   }
 
   constructor(error: {
     message: string
-    dbMessage: { errno: number; code: string }
+    dbMessage: { errno: number; code: string; detail: string }
   }) {
     super()
     this.name = 'DatabaseError'
@@ -51,7 +52,7 @@ const errorHandler = (
     res.status(500).json({
       name: error.name,
       message: error.message,
-      dbMessage: error.dbMessage,
+      dbMessage: error.dbMessage.detail,
     })
   } else {
     console.error({
