@@ -7,7 +7,7 @@
   ],
   "info": {
     "description": "Sleep Tracker API",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "Sleep Tracker",
     "contact": {
       "email": "feller.westley@gmail.com"
@@ -26,22 +26,33 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["id", "username", "password"],
+                  "required": [
+                    "id",
+                    "username",
+                    "password",
+                    "firstName",
+                    "email"
+                  ],
                   "uniqueItems": true,
                   "properties": {
-                    "user": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "integer",
-                            "example": 1
-                          },
-                          "username": {
-                            "type": "string",
-                            "example": "frozenburrito"
-                          }
+                    "userInfo": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "frozenburrito"
+                        },
+                        "firstName": {
+                          "type": "string",
+                          "example": "George"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "George87@gmail.com"
                         }
                       }
                     },
@@ -70,7 +81,13 @@
                       "items": {
                         "type": "string"
                       },
-                      "example": ["Missing username", "Missing password"]
+                      "example": [
+                        "Missing username",
+                        "Missing password",
+                        "Missing first name",
+                        "Missing email",
+                        "Password must be at least 6 characters"
+                      ]
                     }
                   }
                 }
@@ -93,41 +110,8 @@
                       "example": "Registration failed"
                     },
                     "dbMessage": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "error"
-                        },
-                        "length": {
-                          "type": "integer",
-                          "example": 104
-                        },
-                        "severity": {
-                          "type": "string",
-                          "example": "ERROR"
-                        },
-                        "code": {
-                          "type": "string",
-                          "example": "42P01"
-                        },
-                        "position": {
-                          "type": "string",
-                          "example": "13"
-                        },
-                        "file": {
-                          "type": "string",
-                          "example": "parse_relation.c"
-                        },
-                        "line": {
-                          "type": "string",
-                          "example": "1180"
-                        },
-                        "routine": {
-                          "type": "string",
-                          "example": "parserOpenTable"
-                        }
-                      }
+                      "type": "string",
+                      "example": "Key (username)=(burritoman) already exists."
                     }
                   }
                 }
@@ -149,13 +133,22 @@
                   "password": {
                     "type": "string",
                     "example": "supermegasecurecan'tcrackthis"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "George"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "George87@gmail.com"
                   }
                 }
               }
             }
           },
           "description": "User to register"
-        }
+        },
+        "tags": ["Auth"]
       }
     },
     "/api/auth/login": {
@@ -225,41 +218,7 @@
                       "example": "Login failed"
                     },
                     "dbMessage": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "error"
-                        },
-                        "length": {
-                          "type": "integer",
-                          "example": 104
-                        },
-                        "severity": {
-                          "type": "string",
-                          "example": "ERROR"
-                        },
-                        "code": {
-                          "type": "string",
-                          "example": "42P01"
-                        },
-                        "position": {
-                          "type": "string",
-                          "example": "13"
-                        },
-                        "file": {
-                          "type": "string",
-                          "example": "parse_relation.c"
-                        },
-                        "line": {
-                          "type": "string",
-                          "example": "1180"
-                        },
-                        "routine": {
-                          "type": "string",
-                          "example": "parserOpenTable"
-                        }
-                      }
+                      "type": "object"
                     }
                   }
                 }
@@ -287,7 +246,8 @@
             }
           },
           "description": "User to login"
-        }
+        },
+        "tags": ["Auth"]
       }
     },
     "/api/user": {
@@ -359,48 +319,15 @@
                       "example": "Could not retreive user"
                     },
                     "dbMessage": {
-                      "type": "object",
-                      "properties": {
-                        "name": {
-                          "type": "string",
-                          "example": "error"
-                        },
-                        "length": {
-                          "type": "integer",
-                          "example": 104
-                        },
-                        "severity": {
-                          "type": "string",
-                          "example": "ERROR"
-                        },
-                        "code": {
-                          "type": "string",
-                          "example": "42P01"
-                        },
-                        "position": {
-                          "type": "string",
-                          "example": "13"
-                        },
-                        "file": {
-                          "type": "string",
-                          "example": "parse_relation.c"
-                        },
-                        "line": {
-                          "type": "string",
-                          "example": "1180"
-                        },
-                        "routine": {
-                          "type": "string",
-                          "example": "parserOpenTable"
-                        }
-                      }
+                      "type": "object"
                     }
                   }
                 }
               }
             }
           }
-        }
+        },
+        "tags": ["User"]
       }
     }
   },
@@ -408,7 +335,7 @@
     "schemas": {
       "User": {
         "type": "object",
-        "required": ["id", "username", "password"],
+        "required": ["id", "username", "password", "firstName", "email"],
         "properties": {
           "id": {
             "type": "integer",
@@ -421,8 +348,17 @@
           "password": {
             "type": "string",
             "example": "supermegasecurecan'tcrackthis"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "George"
+          },
+          "email": {
+            "type": "string",
+            "example": "George87@gmail.com"
           }
-        }
+        },
+        "description": "Sleep tracker user"
       }
     }
   }
