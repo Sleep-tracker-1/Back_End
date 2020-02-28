@@ -63,7 +63,7 @@ const login = async (
         token: generateToken(userToLogin),
       })
     } else {
-      next(new UnauthorizedError({ message: 'You shall not pass!' }))
+      next(new UnauthorizedError())
     }
   } catch (error) {
     next(

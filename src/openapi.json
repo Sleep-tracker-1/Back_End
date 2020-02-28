@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "servers": [
     {
-      "url": "https://sleep-tracker-server.herokuapp.com/docs"
+      "url": "https://sleep-tracker-server.herokuapp.com"
     }
   ],
   "info": {
@@ -10,10 +10,24 @@
     "version": "1.1.0",
     "title": "Sleep Tracker",
     "contact": {
-      "email": "feller.westley@gmail.com"
+      "email": "feller.westley@gmail.com",
+      "name": "Westley Feller"
     }
   },
   "paths": {
+    "/docs": {
+      "get": {
+        "summary": "API Documentation (You are here)",
+        "operationId": "retrieveDocs",
+        "description": "Documentation for the Sleep Tracker API",
+        "responses": {
+          "200": {
+            "description": "Documentation site for the API ***You are here***"
+          }
+        },
+        "tags": ["Documentation"]
+      }
+    },
     "/api/auth/register": {
       "post": {
         "summary": "Registers a new user",
@@ -157,7 +171,7 @@
         "operationId": "loginUser",
         "description": "Logs in an existing user",
         "responses": {
-          "201": {
+          "200": {
             "description": "User logged in",
             "content": {
               "application/json": {
@@ -196,6 +210,22 @@
                         "type": "string"
                       },
                       "example": ["Missing username", "Missing password"]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid user credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials"
                     }
                   }
                 }
@@ -253,8 +283,13 @@
     "/api/user": {
       "get": {
         "summary": "Retrieves logged in user info",
-        "operationId": "retrieveOneUsers",
+        "operationId": "getLoggedInUser",
         "description": "Get the information for a logged in user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "User",
@@ -267,27 +302,7 @@
             }
           },
           "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Failed to authenticate"
-                    },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "example": ["Missing authentication token"]
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/MissingToken"
           },
           "500": {
             "description": "server error",
@@ -318,6 +333,38 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "MissingToken": {
+        "description": "Missing authentication token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Failed to authenticate"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["Missing authentication token"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "schemas": {
       "User": {
         "type": "object",

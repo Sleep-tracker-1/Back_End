@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express'
 import { ValidationError } from '../../utils/validator'
 
 export class UnauthorizedError extends Error {
-  constructor(error: { message: string }) {
+  constructor(error = { message: 'Invalid credentials' }) {
     super()
     this.name = 'UnauthorizedError'
     this.message = error.message
@@ -45,9 +45,7 @@ const errorHandler = (
       .status(400)
       .json({ message: error.message, errors: error.invalidations })
   } else if (error instanceof UnauthorizedError) {
-    res
-      .status(401)
-      .json({ message: 'You are not authorized to access this endpoint' })
+    res.status(401).json({ message: error.message })
   } else if (error instanceof DatabaseError) {
     res.status(500).json({
       name: error.name,
