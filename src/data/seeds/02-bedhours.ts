@@ -1,18 +1,16 @@
 import Knex, { QueryBuilder } from 'knex'
 import { add } from 'date-fns'
-
-const getRandomNumber = (min: number, max: number): number =>
-  Math.floor(Math.random() * (max - min + 1) + min)
+import getRandomNumber from '../../utils/randomNumberGenerator'
 
 const generateTimestamps = (): {
   user_id: number
   bedtime: Date
   waketime: Date
 }[][] => {
-  return [...Array(50)].map((_id, userIndex) => {
+  return [...Array(56)].map((_id, userIndex) => {
     const startDate = new Date(2019, 2, 25, 19)
 
-    return [...Array(365)].map((_days, dateIndex) => {
+    return [...Array(66)].map((_days, dateIndex) => {
       const day = add(startDate, { days: dateIndex })
       const bedtime = add(day, {
         hours: getRandomNumber(0, 7),
@@ -34,5 +32,7 @@ const generateTimestamps = (): {
   })
 }
 
-exports.seed = (knex: Knex): QueryBuilder =>
+export const seed = (knex: Knex): QueryBuilder =>
   knex('bedhours').insert(generateTimestamps().flat())
+
+export default seed

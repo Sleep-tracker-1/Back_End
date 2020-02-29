@@ -18,8 +18,6 @@
     "migrate:rollback": "npx knex migrate:rollback",
     "migrate:rollback:testing": "cross-env NODE_ENV=testing npx knex migrate:rollback",
     "prettier": "prettier --ignore-path .gitignore \"**/*.+(json|js|ts)\"",
-    "seed:production:bedhours": "cross-env NODE_ENV=production npx knex seed:run --specific=03-bedhours.js",
-    "seed:production:user": "cross-env NODE_ENV=production npx knex seed:run --specific=02-user.js",
     "seed:run": "npx knex seed:run",
     "server": "tsc && nodemon ./build/index.js",
     "start": "node ./build/index.js",
