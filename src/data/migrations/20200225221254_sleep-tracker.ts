@@ -1,7 +1,7 @@
 import Knex, { SchemaBuilder } from 'knex'
 
 export const up = (knex: Knex): SchemaBuilder =>
-  knex.schema.createTable('users', table => {
+  knex.schema.createTable('user', table => {
     table.increments()
     table
       .string('username')
@@ -11,4 +11,4 @@ export const up = (knex: Knex): SchemaBuilder =>
   })
 
 export const down = (knex: Knex): SchemaBuilder =>
-  knex.schema.dropTableIfExists('users')
+  knex.schema.dropTableIfExists('user')

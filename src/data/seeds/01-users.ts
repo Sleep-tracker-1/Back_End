@@ -17,7 +17,7 @@ const generateUsers = (): { username: string; password: string }[] =>
   })
 
 exports.seed = (knex: Knex): QueryBuilder =>
-  knex('users').insert(
+  knex('user').insert(
     generateUsers().concat(
       {
         username: 'wes',
