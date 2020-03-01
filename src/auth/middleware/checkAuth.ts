@@ -8,7 +8,6 @@ import secret from '../../secrets'
 type DecodedJwt = {
   subject: number
   username: string
-  department: string
   iat: number
   exp: number
 }
@@ -43,4 +42,5 @@ const checkAuth = (
     )
   }
 }
+
 export default checkAuth
