@@ -17,7 +17,7 @@ module.exports = {
     },
   },
 
-  testing: {
+  test: {
     client: 'pg',
     connection: {
       host: process.env.TEST_DB_HOST,
