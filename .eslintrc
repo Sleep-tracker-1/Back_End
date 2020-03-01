@@ -37,6 +37,8 @@
     "no-console": "off",
     "optimize-regex/optimize-regex": "warn",
     "spaced-comment": ["error", "always", { "markers": ["/"] }],
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/camelcase": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

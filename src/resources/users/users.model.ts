@@ -13,12 +13,12 @@ export type User = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const findBy = (filter: { [key: string]: any }): QueryBuilder =>
-  db('users')
+  db('user')
     .select('*')
     .where(filter)
 
 export const findById = (id: Id): QueryBuilder<User> =>
-  db('users')
+  db('user')
     .where({ id: Number(id) })
     .first()
 
@@ -26,7 +26,7 @@ export const insert = ({
   firstName,
   ...rest
 }: Omit<User, 'id'>): QueryBuilder<[User]> =>
-  db('users').insert({ first_name: firstName, ...rest }, [
+  db('user').insert({ first_name: firstName, ...rest }, [
     'id',
     'username',
     'first_name',
@@ -34,12 +34,12 @@ export const insert = ({
   ])
 
 export const update = (id: Id, user: Omit<User, 'id'>): QueryBuilder<User> =>
-  db('users')
+  db('user')
     .where({ id: Number(id) })
     .update(user, ['id', 'username', 'first_name', 'email'])
 
 export const remove = (id: Id): QueryBuilder<number> =>
-  db('users')
+  db('user')
     .where('id', Number(id))
     .del()
 
