@@ -3,13 +3,19 @@ import getRandomNumber from '../../utils/randomNumberGenerator'
 import { getNights } from './03-mood'
 
 const generateTiredness = (
-  nights
-): Promise<{
+  nights: {
+    id: number
+    night_id: number
+    wake_tired: number
+    midday_tired: number
+    night_tired: number
+  }[]
+): {
   night_id: number
   wake_tired: number
   midday_tired: number
   night_tired: number
-}[]> =>
+}[] =>
   nights.map(night => {
     return {
       night_id: night.id,

@@ -17,7 +17,7 @@ module.exports = {
     },
   },
 
-  testing: {
+  test: {
     client: 'pg',
     connection: {
       host: process.env.TEST_DB_HOST,
@@ -33,9 +33,20 @@ module.exports = {
     },
   },
 
-  production: {
+  staging: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: './build/data/migrations',
+    },
+    seeds: {
+      directory: './build/data/seeds',
+    },
+  },
+
+  production: {
+    client: 'pg',
+    connection: process.env.PROD_DATABASE_URL,
     migrations: {
       directory: './build/data/migrations',
     },

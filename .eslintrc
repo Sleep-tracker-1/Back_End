@@ -39,6 +39,7 @@
     "spaced-comment": ["error", "always", { "markers": ["/"] }],
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/camelcase": "off",
+    "jest/expect-expect": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

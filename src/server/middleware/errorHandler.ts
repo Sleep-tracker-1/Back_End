@@ -12,6 +12,7 @@ export class UnauthorizedError extends Error {
     Error.captureStackTrace(this, this.constructor)
   }
 }
+
 export class DatabaseError extends Error {
   dbMessage: {
     errno: number

@@ -3,16 +3,18 @@ import { findById } from './users.model'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { DatabaseError } from '../../server/middleware/errorHandler'
 
-const getUsers = async (
+const getUser = async (
   req: AuthorizationRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    // Don't want to ever respond with the user's password
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const { password, ...user } = await findById(req.decodedJwt!.subject)
-    res.status(200).json(user)
+    // Don't want to ever respond with the user's hashed password
+    const { password, first_name: firstName, ...user } = await findById(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      req.decodedJwt!.subject
+    )
+    res.status(200).json({ firstName, ...user })
   } catch (error) {
     next(
       new DatabaseError({
@@ -23,4 +25,4 @@ const getUsers = async (
   }
 }
 
-export default getUsers
+export default getUser
