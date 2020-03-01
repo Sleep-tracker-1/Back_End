@@ -9,25 +9,25 @@ import {
 
 const { Success } = Validation
 
-const hasBody = (req: Request): boolean => !!req.body
-const hasUsername = (req: Request): boolean => !!req.body.username
-const hasPassword = (req: Request): boolean => !!req.body.password
-const passwordMinLength = (req: Request): boolean =>
+export const hasBody = (req: Request): boolean => !!req.body
+export const hasUsername = (req: Request): boolean => !!req.body.username
+export const hasPassword = (req: Request): boolean => !!req.body.password
+export const passwordMinLength = (req: Request): boolean =>
   hasPassword(req) && req.body.password.length >= 6
-const hasFirstName = (req: Request): boolean => !!req.body.firstName
-const hasEmail = (req: Request): boolean => !!req.body.email
+export const hasFirstName = (req: Request): boolean => !!req.body.firstName
+export const hasEmail = (req: Request): boolean => !!req.body.email
 
-const bodyValidator = validator('Missing user data', hasBody)
-const usernameValidator = validator('Missing username', hasUsername)
-const passwordValidator = validator('Missing password', hasPassword)
-const passwordLengthValidator = validator(
+export const bodyValidator = validator('Missing user data', hasBody)
+export const usernameValidator = validator('Missing username', hasUsername)
+export const passwordValidator = validator('Missing password', hasPassword)
+export const passwordLengthValidator = validator(
   'Password must be at least 6 characters',
   passwordMinLength
 )
-const firstNameValidator = validator('Missing first name', hasFirstName)
-const emailValidator = validator('Missing email', hasEmail)
+export const firstNameValidator = validator('Missing first name', hasFirstName)
+export const emailValidator = validator('Missing email', hasEmail)
 
-const registerValidationResult = (req: Request): Matcher =>
+export const registerValidationResult = (req: Request): Matcher =>
   Success()
     .concat(bodyValidator(req))
     .concat(usernameValidator(req))
@@ -36,13 +36,13 @@ const registerValidationResult = (req: Request): Matcher =>
     .concat(emailValidator(req))
     .concat(passwordLengthValidator(req))
 
-const loginValidationResult = (req: Request): Matcher =>
+export const loginValidationResult = (req: Request): Matcher =>
   Success()
     .concat(bodyValidator(req))
     .concat(usernameValidator(req))
     .concat(passwordValidator(req))
 
-const checkValidation = (
+export const checkValidation = (
   req: Request,
   _res: Response,
   next: NextFunction
