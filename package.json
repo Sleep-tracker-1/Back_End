@@ -21,6 +21,7 @@
     "server": "tsc && nodemon ./build/index.js",
     "start": "node ./build/index.js",
     "test": "cross-env NODE_ENV=test npx knex migrate:latest && cross-env NODE_ENV=test npx knex seed:run && jest --runInBand --detectOpenHandles",
+    "test:staging": "cross-env NODE_ENV=staging npx knex migrate:latest && cross-env NODE_ENV=staging npx knex seed:run && jest --runInBand --detectOpenHandles",
     "test:watch": "cross-env NODE_ENV=test npx knex migrate:latest && cross-env NODE_ENV=test npx knex seed:run && jest --watch --runInBand --detectOpenHandles",
     "test:coverage": "yarn run test --coverage",
     "validate": "npm-run-all --parallel check-format lint build test:coverage"
