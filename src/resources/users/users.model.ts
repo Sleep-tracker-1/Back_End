@@ -14,8 +14,8 @@ export type User = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const findBy = (filter: { [key: string]: any }): QueryBuilder =>
   db('user')
-    .select('*')
     .where(filter)
+    .select('*')
 
 export const findById = (id: Id): QueryBuilder<User> =>
   db('user')
@@ -29,14 +29,22 @@ export const insert = ({
   db('user').insert({ first_name: firstName, ...rest }, [
     'id',
     'username',
-    'first_name',
+    'first_name as firstName',
     'email',
   ])
 
-export const update = (id: Id, user: Omit<User, 'id'>): QueryBuilder<User> =>
+export const update = (
+  id: Id,
+  { firstName, ...rest }: Omit<User, 'id'>
+): QueryBuilder<User> =>
   db('user')
     .where({ id: Number(id) })
-    .update(user, ['id', 'username', 'first_name', 'email'])
+    .update({ first_name: firstName, ...rest }, [
+      'id',
+      'username',
+      'first_name as firstName',
+      'email',
+    ])
 
 export const remove = (id: Id): QueryBuilder<number> =>
   db('user')

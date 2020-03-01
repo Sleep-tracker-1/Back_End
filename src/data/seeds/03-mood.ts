@@ -1,17 +1,23 @@
 import Knex, { QueryBuilder } from 'knex'
 import getRandomNumber from '../../utils/randomNumberGenerator'
 
-export const getNights = (knex): QueryBuilder<{ id: number }[]> =>
+export const getNights = (knex: Knex): QueryBuilder<{ id: number }[]> =>
   knex('bedhours').select('id')
 
 const generateMoods = (
-  nights
-): Promise<{
+  nights: {
+    id: number
+    night_id: number
+    wake_mood: number
+    midday_mood: number
+    night_mood: number
+  }[]
+): {
   night_id: number
   wake_mood: number
   midday_mood: number
   night_mood: number
-}[]> =>
+}[] =>
   nights.map(night => {
     return {
       night_id: night.id,

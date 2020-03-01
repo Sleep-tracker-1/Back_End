@@ -8,7 +8,6 @@ import secret from '../../secrets'
 type DecodedJwt = {
   subject: number
   username: string
-  department: string
   iat: number
   exp: number
 }
@@ -27,7 +26,7 @@ const checkAuth = (
   if (req.decodedJwt) {
     next()
   } else if (token) {
-    jwt.verify(token, secret, (error, decodedJwt) => {
+    jwt.verify(token, secret, (error: Error, decodedJwt: object | string) => {
       if (error) {
         next(new UnauthorizedError())
       } else {
@@ -43,4 +42,5 @@ const checkAuth = (
     )
   }
 }
+
 export default checkAuth
