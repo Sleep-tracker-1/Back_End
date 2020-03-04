@@ -81,4 +81,23 @@ export const buildMood = (
   }
 }
 
+export const buildTired = (
+  wake: number | null,
+  midday: number | null,
+  night: number | null,
+  nightId: number
+): {
+  wakeTired: number | null
+  middayTired: number | null
+  nightTired: number | null
+  nightId: number
+} => {
+  return {
+    wakeTired: wake,
+    middayTired: midday,
+    nightTired: night,
+    nightId,
+  }
+}
+
 export const buildNext: () => jest.Mock = () => jest.fn().mockName('next')
