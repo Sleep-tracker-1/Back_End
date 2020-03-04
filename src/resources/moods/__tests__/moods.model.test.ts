@@ -162,7 +162,7 @@ describe('moods model', () => {
           id: 1,
           bedtime: bedHour.bedtime,
           waketime: bedHour.waketime,
-          userId: bedHour.user_id,
+          userId: bedHour.userId,
         },
       ])
 

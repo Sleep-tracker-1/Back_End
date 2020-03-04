@@ -8,7 +8,7 @@ export type Bedhour = {
   id: Id
   bedtime: Date
   waketime: Date
-  user_id: Id
+  userId: Id
 }
 
 export const find = (startDate: Date, endDate: Date): QueryBuilder =>
@@ -23,12 +23,14 @@ export const findById = (id: Id): QueryBuilder<Bedhour> =>
     .select('id', 'bedtime', 'waketime', 'user_id as userId')
 
 export const insert = (bedhour: Omit<Bedhour, 'id'>): QueryBuilder<[Bedhour]> =>
-  db('bedhours').insert(bedhour, [
-    'id',
-    'bedtime',
-    'waketime',
-    'user_id as userId',
-  ])
+  db('bedhours').insert(
+    {
+      bedtime: bedhour.bedtime,
+      waketime: bedhour.waketime,
+      user_id: bedhour.userId,
+    },
+    ['id', 'bedtime', 'waketime', 'user_id as userId']
+  )
 
 export const update = (
   id: Id,
@@ -40,7 +42,7 @@ export const update = (
       {
         bedtime: bedHour.bedtime,
         waketime: bedHour.waketime,
-        user_id: bedHour.user_id,
+        user_id: bedHour.userId,
       },
       ['id', 'bedtime', 'waketime', 'user_id as userId']
     )

@@ -23,6 +23,8 @@ describe('bedhours model', () => {
         1
       )
 
+      console.log(bedHour1)
+
       await insert(bedHour1)
       await insert(bedHour2)
       await insert(bedHour3)
@@ -46,13 +48,13 @@ describe('bedhours model', () => {
       ).toEqual([
         {
           id: 1,
-          userId: bedHour1.user_id,
+          userId: bedHour1.userId,
           waketime: bedHour1.waketime,
           bedtime: bedHour1.bedtime,
         },
         {
           id: 2,
-          userId: bedHour2.user_id,
+          userId: bedHour2.userId,
           waketime: bedHour2.waketime,
           bedtime: bedHour2.bedtime,
         },
@@ -86,7 +88,7 @@ describe('bedhours model', () => {
         id: 2,
         bedtime: bedHour2.bedtime,
         waketime: bedHour2.waketime,
-        userId: bedHour2.user_id,
+        userId: bedHour2.userId,
       })
     })
   })
@@ -104,7 +106,7 @@ describe('bedhours model', () => {
           id: 1,
           bedtime: bedHour1.bedtime,
           waketime: bedHour1.waketime,
-          userId: bedHour1.user_id,
+          userId: bedHour1.userId,
         },
       ])
     })
@@ -123,7 +125,7 @@ describe('bedhours model', () => {
           id: 1,
           bedtime: bedHour1.bedtime,
           waketime: bedHour1.waketime,
-          userId: bedHour1.user_id,
+          userId: bedHour1.userId,
         },
       ])
 
@@ -138,7 +140,7 @@ describe('bedhours model', () => {
           id: 1,
           bedtime: bedHourToUpdate.bedtime,
           waketime: bedHourToUpdate.waketime,
-          userId: bedHourToUpdate.user_id,
+          userId: bedHourToUpdate.userId,
         },
       ])
     })

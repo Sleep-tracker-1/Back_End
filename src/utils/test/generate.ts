@@ -40,7 +40,7 @@ export const buildBedhour = (
   },
   timeToAdd: { hours: number; minutes: number; seconds: number },
   userId: number
-): { bedtime: Date; waketime: Date; user_id: number } => {
+): { bedtime: Date; waketime: Date; userId: number } => {
   const bedtime = new Date(
     startDateTime.year,
     startDateTime.month,
@@ -58,7 +58,7 @@ export const buildBedhour = (
   return {
     bedtime,
     waketime,
-    user_id: userId,
+    userId,
   }
 }
 
