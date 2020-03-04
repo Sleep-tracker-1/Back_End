@@ -4,7 +4,7 @@ import { Request } from 'express'
 import server from '../../../server/server'
 import db from '../../../data/dbConfig'
 import getUser from '../users.controllers'
-import { buildNext, MockResponse } from '../../../test/utils/generate'
+import { buildNext, MockResponse } from '../../../utils/test/generate'
 import { DatabaseError } from '../../../server/middleware/errorHandler'
 
 describe('/user', () => {

@@ -1,6 +1,6 @@
 import db from '../../../data/dbConfig'
 import { findBy, findById, insert, remove, update } from '../users.model'
-import { buildUser } from '../../../test/utils/generate'
+import { buildUser } from '../../../utils/test/generate'
 
 beforeEach(() => db.raw('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE'))
 

@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import errorHandler, { DatabaseError, UnauthorizedError } from '../errorHandler'
-import { buildNext, MockResponse } from '../../../test/utils/generate'
+import { buildNext, MockResponse } from '../../../utils/test/generate'
 import { ValidationError } from '../../../utils/validator'
 
 describe('errorHandler', () => {
