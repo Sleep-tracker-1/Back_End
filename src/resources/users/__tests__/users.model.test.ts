@@ -18,7 +18,7 @@ describe('users model', () => {
           id: 1,
           username: user1.username,
           password: user1.password,
-          first_name: user1.firstName,
+          firstName: user1.firstName,
           email: user1.email,
         },
       ])
@@ -37,7 +37,7 @@ describe('users model', () => {
         id: 1,
         username: user1.username,
         password: user1.password,
-        first_name: user1.firstName,
+        firstName: user1.firstName,
         email: user1.email,
       })
     })

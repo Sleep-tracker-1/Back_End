@@ -15,12 +15,13 @@ export type User = {
 export const findBy = (filter: { [key: string]: any }): QueryBuilder =>
   db('user')
     .where(filter)
-    .select('*')
+    .select('id', 'username', 'first_name as firstName', 'password', 'email')
 
 export const findById = (id: Id): QueryBuilder<User> =>
   db('user')
     .where({ id: Number(id) })
     .first()
+    .select('id', 'username', 'first_name as firstName', 'password', 'email')
 
 export const insert = ({
   firstName,

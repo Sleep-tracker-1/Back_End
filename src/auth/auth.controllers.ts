@@ -58,7 +58,7 @@ export const login = async (
 
     if (userToLogin && bcrypt.compareSync(password, userToLogin.password)) {
       res.status(200).json({
-        message: `Welcome ${userToLogin.first_name}!`,
+        message: `Welcome ${userToLogin.firstName}!`,
         token: generateToken(userToLogin.id, userToLogin.username),
       })
     } else {

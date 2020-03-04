@@ -46,11 +46,15 @@ describe('bedhours model', () => {
       ).toEqual([
         {
           id: 1,
-          ...bedHour1,
+          userId: bedHour1.user_id,
+          waketime: bedHour1.waketime,
+          bedtime: bedHour1.bedtime,
         },
         {
           id: 2,
-          ...bedHour2,
+          userId: bedHour2.user_id,
+          waketime: bedHour2.waketime,
+          bedtime: bedHour2.bedtime,
         },
       ])
     })
@@ -82,7 +86,7 @@ describe('bedhours model', () => {
         id: 2,
         bedtime: bedHour2.bedtime,
         waketime: bedHour2.waketime,
-        user_id: bedHour2.user_id,
+        userId: bedHour2.user_id,
       })
     })
   })
@@ -100,7 +104,7 @@ describe('bedhours model', () => {
           id: 1,
           bedtime: bedHour1.bedtime,
           waketime: bedHour1.waketime,
-          user_id: bedHour1.user_id,
+          userId: bedHour1.user_id,
         },
       ])
     })
@@ -119,7 +123,7 @@ describe('bedhours model', () => {
           id: 1,
           bedtime: bedHour1.bedtime,
           waketime: bedHour1.waketime,
-          user_id: bedHour1.user_id,
+          userId: bedHour1.user_id,
         },
       ])
 
@@ -134,7 +138,7 @@ describe('bedhours model', () => {
           id: 1,
           bedtime: bedHourToUpdate.bedtime,
           waketime: bedHourToUpdate.waketime,
-          user_id: bedHourToUpdate.user_id,
+          userId: bedHourToUpdate.user_id,
         },
       ])
     })

@@ -12,18 +12,23 @@ export type Bedhour = {
 }
 
 export const find = (startDate: Date, endDate: Date): QueryBuilder =>
-  db('bedhours').whereBetween('waketime', [
-    startDate,
-    add(endDate, { days: 1 }),
-  ])
+  db('bedhours')
+    .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
+    .select('id', 'bedtime', 'waketime', 'user_id as userId')
 
 export const findById = (id: Id): QueryBuilder<Bedhour> =>
   db('bedhours')
     .where({ id })
     .first()
+    .select('id', 'bedtime', 'waketime', 'user_id as userId')
 
 export const insert = (bedhour: Omit<Bedhour, 'id'>): QueryBuilder<[Bedhour]> =>
-  db('bedhours').insert(bedhour, ['*'])
+  db('bedhours').insert(bedhour, [
+    'id',
+    'bedtime',
+    'waketime',
+    'user_id as userId',
+  ])
 
 export const update = (
   id: Id,
@@ -37,10 +42,18 @@ export const update = (
         waketime: bedHour.waketime,
         user_id: bedHour.user_id,
       },
-      ['*']
+      ['id', 'bedtime', 'waketime', 'user_id as userId']
     )
 
 export const remove = (id: Id): QueryBuilder<number> =>
   db('bedhours')
     .where({ id })
     .del()
+
+export default {
+  find,
+  findById,
+  insert,
+  update,
+  remove,
+}
