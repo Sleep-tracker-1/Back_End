@@ -42,7 +42,6 @@ export const buildBedhour = (
 ): {
   waketime: Date
   bedtime: Date
-  wakeDate: string
   userId: number | undefined
 } => {
   const bedtime = new Date(
@@ -59,12 +58,9 @@ export const buildBedhour = (
     seconds: timeToAdd.seconds,
   })
 
-  const wakeDate = format(waketime, 'yyyy-MM-dd')
-
   return {
     bedtime,
     waketime,
-    wakeDate,
     userId,
   }
 }

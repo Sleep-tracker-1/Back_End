@@ -163,7 +163,6 @@ describe('tired model', () => {
           id: 1,
           bedtime: bedHour.bedtime,
           waketime: bedHour.waketime,
-          wakeDate: add(new Date(bedHour.wakeDate), { hours: 8 }),
           userId: bedHour.userId,
         },
       ])

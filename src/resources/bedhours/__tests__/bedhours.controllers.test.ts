@@ -1,6 +1,5 @@
 import request from 'supertest'
 import faker from 'faker'
-import { add, format } from 'date-fns'
 import server from '../../../server/server'
 import db from '../../../data/dbConfig'
 import { buildBedhour } from '../../../utils/test/generate'
@@ -55,9 +54,6 @@ describe('bedhours', () => {
               id: 1,
               bedtime: bedHours1.bedtime.toISOString(),
               waketime: bedHours1.waketime.toISOString(),
-              wakeDate: add(new Date(bedHours1.wakeDate), {
-                hours: 8,
-              }).toISOString(),
               userId: 1,
             })
         ))
