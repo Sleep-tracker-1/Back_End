@@ -23,11 +23,10 @@ export const getAllData = (
   db('user')
     .where('user.id', userId)
     .join('bedhours', 'user.id', 'bedhours.user_id')
-    .whereBetween('bedhours.wake_date', [startDate, endDate])
+    .whereBetween('bedhours.waketime', [startDate, endDate])
     .join('mood', 'mood.night_id', 'bedhours.id')
     .join('tiredness', 'tiredness.night_id', 'bedhours.id')
     .select(
-      'bedhours.wake_date as date',
       'bedhours.id as dateId',
       'bedhours.waketime',
       'mood.wake_mood as wakeMood',

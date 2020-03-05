@@ -28,29 +28,6 @@ export const up = (knex: Knex): SchemaBuilder =>
         .inTable('user')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-      table.date('wake_date').notNullable()
-    })
-
-    .createTable('user_bedhours', table => {
-      table
-        .integer('user_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('user')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE')
-
-      table
-        .integer('bedhours_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('bedhours')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE')
-
-      table.primary(['user_id', 'bedhours_id'])
     })
 
     .createTable('mood', table => {
@@ -89,6 +66,5 @@ export const down = (knex: Knex): SchemaBuilder =>
   knex.schema
     .dropTableIfExists('tiredness')
     .dropTableIfExists('mood')
-    .dropTableIfExists('user_bedhours')
     .dropTableIfExists('user')
     .dropTableIfExists('bedhours')

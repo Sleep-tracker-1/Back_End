@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express'
-import { add, differenceInMinutes } from 'date-fns'
+import { add, differenceInMinutes, format } from 'date-fns'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { findById } from '../users/users.model'
 import { getAllData, SleepData } from './data.model'
@@ -26,7 +26,7 @@ const getData = async (
 
     const formattedData = sleepData.map((night: SleepData) => {
       return {
-        date: night.date,
+        date: format(night.waketime, 'M/d/yy'),
         dateId: night.dateId,
         totalTimeInBed: (
           differenceInMinutes(night.waketime, night.bedtime) / 60
