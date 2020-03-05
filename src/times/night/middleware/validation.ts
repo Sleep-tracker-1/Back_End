@@ -16,7 +16,7 @@ const hasTime = (req: Request): boolean => !!req.body.time
 const hasMood = (req: Request): boolean => !!req.body.mood
 const hasTiredness = (req: Request): boolean => !!req.body.tiredness
 
-const checkDate = async (req: Request) => {
+const checkDate = async (req: Request): Promise<boolean> => {
   const bedHours = await findBedhours(
     sub(new Date(req.body.time), { years: 100 }),
     new Date(req.body.time)
@@ -61,15 +61,15 @@ export const checkValidation = async (
         ])
       )
     }
+  } else if (didItValidate(validationResult(req))) {
+    next()
   } else {
-    return didItValidate(validationResult(req))
-      ? next()
-      : next(
-          new ValidationError(
-            'Submitted data is incomplete or incorrect',
-            validationResult(req).value
-          )
-        )
+    next(
+      new ValidationError(
+        'Submitted data is incomplete or incorrect',
+        validationResult(req).value
+      )
+    )
   }
 }
 

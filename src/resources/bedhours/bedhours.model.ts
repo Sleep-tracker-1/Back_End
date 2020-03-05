@@ -25,10 +25,10 @@ export const findWaketimeFromMidday = (): QueryBuilder<[Bedhour]> =>
     .orderBy('id', 'desc')
     .limit(1)
 
-export const findBedtime = (
+export const findBedtime = async (
   startDate: Date,
   endDate: Date
-): QueryBuilder<[Bedhour]> =>
+): Promise<Bedhour[]> =>
   db('bedhours')
     .whereBetween('bedtime', [startDate, endDate])
     .select('id', 'bedtime')
