@@ -5,6 +5,7 @@ import { update as updateMood } from '../../resources/moods/moods.model'
 import { update as updateTired } from '../../resources/tiredness/tiredness.model'
 import { findBedtime } from '../../resources/bedhours/bedhours.model'
 import wakeModel from './wake.model'
+import { DatabaseError } from '../../server/middleware/errorHandler'
 
 const addWake = async (
   req: AuthorizationRequest,
@@ -36,7 +37,12 @@ const addWake = async (
 
     res.status(201).json({ wakeTime, addMood, addTired })
   } catch (error) {
-    console.error(error)
+    next(
+      new DatabaseError({
+        message: 'Could not update item',
+        dbMessage: error,
+      })
+    )
   }
 }
 

@@ -43,7 +43,7 @@ export const getOne = (model: Model) => async (
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve items',
+        message: 'Could not retrieve item',
         dbMessage: error,
       })
     )
@@ -91,7 +91,7 @@ export const updateOne = (model: Model) => async (
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve items',
+        message: 'Could not update item',
         dbMessage: error,
       })
     )
@@ -109,7 +109,7 @@ export const removeOne = (model: Model) => async (
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve items',
+        message: 'Could not remove item',
         dbMessage: error,
       })
     )

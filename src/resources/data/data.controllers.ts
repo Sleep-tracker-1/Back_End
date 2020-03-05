@@ -3,6 +3,7 @@ import { differenceInMinutes, format } from 'date-fns'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { findById } from '../users/users.model'
 import { getAllData, SleepData } from './data.model'
+import { DatabaseError } from '../../server/middleware/errorHandler'
 
 const getData = async (
   req: AuthorizationRequest,
@@ -56,7 +57,12 @@ const getData = async (
 
     res.status(200).json(data)
   } catch (error) {
-    console.error(error)
+    next(
+      new DatabaseError({
+        message: 'Could not retrieve items',
+        dbMessage: error,
+      })
+    )
   }
 }
 

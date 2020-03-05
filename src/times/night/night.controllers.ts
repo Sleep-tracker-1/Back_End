@@ -1,6 +1,7 @@
 import { NextFunction, Response } from 'express'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import nightModel from './night.model'
+import { DatabaseError } from '../../server/middleware/errorHandler'
 
 const addNight = async (
   req: AuthorizationRequest,
@@ -20,7 +21,12 @@ const addNight = async (
 
     res.status(201).json({ nightTime, nightMood, nightTired })
   } catch (error) {
-    console.error(error)
+    next(
+      new DatabaseError({
+        message: 'Adding item failed',
+        dbMessage: error,
+      })
+    )
   }
 }
 

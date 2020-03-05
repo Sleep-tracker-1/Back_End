@@ -3,6 +3,7 @@ import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { findWaketimeFromMidday } from '../../resources/bedhours/bedhours.model'
 import { update as updateMood } from '../../resources/moods/moods.model'
 import { update as updateTired } from '../../resources/tiredness/tiredness.model'
+import { DatabaseError } from '../../server/middleware/errorHandler'
 
 const addMidday = async (
   req: AuthorizationRequest,
@@ -22,9 +23,14 @@ const addMidday = async (
       nightId: dateToUpdate.id,
     })
 
-    res.status(201).json({ addMood, addTired })
+    res.status(200).json({ addMood, addTired })
   } catch (error) {
-    console.error(error)
+    next(
+      new DatabaseError({
+        message: 'Could not update item',
+        dbMessage: error,
+      })
+    )
   }
 }
 
