@@ -5,12 +5,14 @@ import authRouter from '../auth/auth.router'
 import usersRouter from '../resources/users/users.router'
 import bedHoursRouter from '../resources/bedhours/bedhours.router'
 import dataRouter from '../resources/data/data.router'
+import moodsRouter from '../resources/moods/moods.router'
 
 const router = Router()
 
 router.use('/auth', authRouter)
 router.use('/user', usersRouter)
 router.use('/bedhours', bedHoursRouter)
+router.use('/moods', moodsRouter)
 router.use('/data', dataRouter)
 
 router.route('/').get(controllers.apiRoot)

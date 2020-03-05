@@ -1,5 +1,5 @@
 import { QueryBuilder } from 'knex'
-import { add } from 'date-fns'
+import { add, sub } from 'date-fns'
 import db from '../../data/dbConfig'
 import { Id } from '../../utils/crud'
 
@@ -11,7 +11,10 @@ type Mood = {
   nightId: number
 }
 
-export const find = (startDate: Date, endDate: Date): QueryBuilder<[Mood]> =>
+export const find = (
+  startDate: Date = sub(new Date(), { days: 30 }),
+  endDate: Date = new Date()
+): QueryBuilder<[Mood]> =>
   db('mood')
     .join('bedhours', 'mood.night_id', 'bedhours.id')
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
@@ -52,7 +55,7 @@ export const insert = (mood: Omit<Mood, 'id'>): QueryBuilder<[Mood]> =>
     ]
   )
 
-export const update = (mood: Omit<Mood, 'id'>): QueryBuilder<[Mood]> =>
+export const update = (id: Id, mood: Omit<Mood, 'id'>): QueryBuilder<[Mood]> =>
   db('mood')
     .where({ night_id: mood.nightId })
     .update(
@@ -75,3 +78,5 @@ export const remove = (id: Id): QueryBuilder<number> =>
   db('mood')
     .where({ id })
     .del()
+
+export default { find, findById, insert, update, remove }

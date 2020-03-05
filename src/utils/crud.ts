@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 import { QueryBuilder } from 'knex'
-import { sub } from 'date-fns'
 import { DatabaseError } from '../server/middleware/errorHandler'
 import { AuthorizationRequest } from '../auth/middleware/checkAuth'
 

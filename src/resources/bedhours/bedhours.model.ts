@@ -14,7 +14,7 @@ export type Bedhour = {
 export const find = (
   startDate: Date = sub(new Date(), { days: 30 }),
   endDate: Date = new Date()
-): QueryBuilder =>
+): QueryBuilder<[Bedhour]> =>
   db('bedhours')
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
     .select('id', 'bedtime', 'waketime', 'user_id as userId')
