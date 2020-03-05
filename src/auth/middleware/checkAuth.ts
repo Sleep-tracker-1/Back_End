@@ -35,11 +35,7 @@ const checkAuth = (
       }
     })
   } else {
-    next(
-      new ValidationError('Failed to authenticate', [
-        'Missing authentication token',
-      ])
-    )
+    next(new UnauthorizedError({ message: 'Failed to authenticate' }))
   }
 }
 

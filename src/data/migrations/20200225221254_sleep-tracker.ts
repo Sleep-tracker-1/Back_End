@@ -15,6 +15,7 @@ export const up = (knex: Knex): SchemaBuilder =>
         .notNullable()
         .unique()
     })
+
     .createTable('bedhours', table => {
       table.increments()
       table.dateTime('bedtime').notNullable()
@@ -28,6 +29,7 @@ export const up = (knex: Knex): SchemaBuilder =>
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
     })
+
     .createTable('mood', table => {
       table.increments()
       table.integer('wake_mood').unsigned()
@@ -37,11 +39,13 @@ export const up = (knex: Knex): SchemaBuilder =>
         .integer('night_id')
         .unsigned()
         .notNullable()
+        .unique()
         .references('id')
         .inTable('bedhours')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
     })
+
     .createTable('tiredness', table => {
       table.increments()
       table.integer('wake_tired').unsigned()
@@ -51,6 +55,7 @@ export const up = (knex: Knex): SchemaBuilder =>
         .integer('night_id')
         .unsigned()
         .notNullable()
+        .unique()
         .references('id')
         .inTable('bedhours')
         .onDelete('CASCADE')
@@ -59,7 +64,7 @@ export const up = (knex: Knex): SchemaBuilder =>
 
 export const down = (knex: Knex): SchemaBuilder =>
   knex.schema
+    .dropTableIfExists('tiredness')
+    .dropTableIfExists('mood')
     .dropTableIfExists('user')
     .dropTableIfExists('bedhours')
-    .dropTableIfExists('mood')
-    .dropTableIfExists('tiredness')

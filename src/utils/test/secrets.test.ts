@@ -1,4 +1,4 @@
-import secrets from '../secrets'
+import secrets from '../../secrets'
 
 describe('secrets', () => {
   it('should return the JWT_SECRET env variable', () => {

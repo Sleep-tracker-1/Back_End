@@ -1,131 +1,117 @@
 {
-  "openapi": "3.0.0",
-  "servers": [
-    {
-      "url": "https://sleep-tracker-server.herokuapp.com"
-    }
-  ],
-  "info": {
-    "description": "Sleep Tracker API",
-    "version": "1.1.0",
-    "title": "Sleep Tracker",
-    "contact": {
-      "email": "feller.westley@gmail.com",
-      "name": "Westley Feller"
+  "openapi" : "3.0.0",
+  "servers" : [ {
+    "url" : "https://sleep-tracker-server.herokuapp.com"
+  } ],
+  "info" : {
+    "description" : "Sleep Tracker API",
+    "version" : "1.1.0",
+    "title" : "Sleep Tracker",
+    "contact" : {
+      "email" : "feller.westley@gmail.com",
+      "name" : "Westley Feller"
     }
   },
-  "paths": {
-    "/docs": {
-      "get": {
-        "summary": "API Documentation (You are here)",
-        "operationId": "retrieveDocs",
-        "description": "Documentation for the Sleep Tracker API",
-        "responses": {
-          "200": {
-            "description": "Documentation site for the API ***You are here***"
+  "paths" : {
+    "/docs" : {
+      "get" : {
+        "summary" : "API Documentation (You are here)",
+        "operationId" : "retrieveDocs",
+        "description" : "Documentation for the Sleep Tracker API",
+        "responses" : {
+          "200" : {
+            "description" : "Documentation site for the API ***You are here***"
           }
         },
-        "tags": ["Documentation"]
+        "tags" : [ "Documentation" ]
       }
     },
-    "/api/auth/register": {
-      "post": {
-        "summary": "Registers a new user",
-        "operationId": "registerUser",
-        "description": "Registers a new user and adds them to the users database",
-        "responses": {
-          "201": {
-            "description": "User registered",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "id",
-                    "username",
-                    "password",
-                    "firstName",
-                    "email"
-                  ],
-                  "uniqueItems": true,
-                  "properties": {
-                    "userInfo": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "example": 1
+    "/api/auth/register" : {
+      "post" : {
+        "summary" : "Registers a new user",
+        "operationId" : "registerUser",
+        "description" : "Registers a new user and adds them to the users database",
+        "responses" : {
+          "201" : {
+            "description" : "User registered",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "required" : [ "id", "username", "password", "firstName", "email" ],
+                  "uniqueItems" : true,
+                  "properties" : {
+                    "userInfo" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "integer",
+                          "example" : 1
                         },
-                        "username": {
-                          "type": "string",
-                          "example": "frozenburrito"
+                        "username" : {
+                          "type" : "string",
+                          "example" : "frozenburrito"
                         },
-                        "firstName": {
-                          "type": "string",
-                          "example": "George"
+                        "firstName" : {
+                          "type" : "string",
+                          "example" : "George"
                         },
-                        "email": {
-                          "type": "string",
-                          "example": "George87@gmail.com"
+                        "email" : {
+                          "type" : "string",
+                          "example" : "George87@gmail.com"
                         }
                       }
                     },
-                    "token": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODI3Nzc3NDMsImV4cCI6MTU4Mjg2NDE0M30.Pcg1alJ40SrojviGmxQZm_doJqm6WWpUyRH_hoUJ3XY"
+                    "token" : {
+                      "type" : "string",
+                      "example" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1ODI3Nzc3NDMsImV4cCI6MTU4Mjg2NDE0M30.Pcg1alJ40SrojviGmxQZm_doJqm6WWpUyRH_hoUJ3XY"
                     }
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "Invalid user object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Submitted data is incomplete or incorrect"
+          "400" : {
+            "description" : "Invalid user object",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Submitted data is incomplete or incorrect"
                     },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
+                    "errors" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
                       },
-                      "example": [
-                        "Missing username",
-                        "Missing password",
-                        "Missing first name",
-                        "Missing email",
-                        "Password must be at least 6 characters"
-                      ]
+                      "example" : [ "Missing username", "Missing password", "Missing first name", "Missing email", "Password must be at least 6 characters" ]
                     }
                   }
                 }
               }
             }
           },
-          "500": {
-            "description": "server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "DatabaseError"
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "example" : "DatabaseError"
                     },
-                    "message": {
-                      "type": "string",
-                      "example": "Registration failed"
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Registration failed"
                     },
-                    "dbMessage": {
-                      "type": "string",
-                      "example": "Key (username)=(burritoman) already exists."
+                    "dbMessage" : {
+                      "type" : "string",
+                      "example" : "Key (username)=(burritoman) already exists."
                     }
                   }
                 }
@@ -133,122 +119,122 @@
             }
           }
         },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["username", "password"],
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "example": "frozenburrito"
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "required" : [ "username", "password" ],
+                "properties" : {
+                  "username" : {
+                    "type" : "string",
+                    "example" : "frozenburrito"
                   },
-                  "password": {
-                    "type": "string",
-                    "example": "supermegasecurecan'tcrackthis"
+                  "password" : {
+                    "type" : "string",
+                    "example" : "supermegasecurecan'tcrackthis"
                   },
-                  "firstName": {
-                    "type": "string",
-                    "example": "George"
+                  "firstName" : {
+                    "type" : "string",
+                    "example" : "George"
                   },
-                  "email": {
-                    "type": "string",
-                    "example": "George87@gmail.com"
+                  "email" : {
+                    "type" : "string",
+                    "example" : "George87@gmail.com"
                   }
                 }
               }
             }
           },
-          "description": "User to register"
+          "description" : "User to register"
         },
-        "tags": ["Auth"]
+        "tags" : [ "Authentication" ]
       }
     },
-    "/api/auth/login": {
-      "post": {
-        "summary": "Logs in a user",
-        "operationId": "loginUser",
-        "description": "Logs in an existing user",
-        "responses": {
-          "200": {
-            "description": "User logged in",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": ["message", "token"],
-                  "uniqueItems": true,
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Welcome frozenburrito!"
+    "/api/auth/login" : {
+      "post" : {
+        "summary" : "Logs in a user",
+        "operationId" : "loginUser",
+        "description" : "Logs in an existing user",
+        "responses" : {
+          "201" : {
+            "description" : "User logged in",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "required" : [ "message", "token" ],
+                  "uniqueItems" : true,
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Welcome frozenburrito!"
                     },
-                    "token": {
-                      "type": "string",
-                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMiwidXNlcm5hbWUiOiJzY291dCIsImlhdCI6MTU4Mjc3ODI1MywiZXhwIjoxNTgyODY0NjUzfQ.Nwhc4VSi4HS05AhERcIGMI4jgdHnhyaEHvnL7xDJ-sQ"
+                    "token" : {
+                      "type" : "string",
+                      "example" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMiwidXNlcm5hbWUiOiJzY291dCIsImlhdCI6MTU4Mjc3ODI1MywiZXhwIjoxNTgyODY0NjUzfQ.Nwhc4VSi4HS05AhERcIGMI4jgdHnhyaEHvnL7xDJ-sQ"
                     }
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "Invalid user object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Submitted data is incomplete or incorrect"
+          "400" : {
+            "description" : "Invalid user object",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Submitted data is incomplete or incorrect"
                     },
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
+                    "errors" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
                       },
-                      "example": ["Missing username", "Missing password"]
+                      "example" : [ "Missing username", "Missing password" ]
                     }
                   }
                 }
               }
             }
           },
-          "401": {
-            "description": "Invalid user credentials",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid credentials"
+          "401" : {
+            "description" : "Invalid user credentials",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Invalid credentials"
                     }
                   }
                 }
               }
             }
           },
-          "500": {
-            "description": "server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "DatabaseError"
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "example" : "DatabaseError"
                     },
-                    "message": {
-                      "type": "string",
-                      "example": "Login failed"
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Login failed"
                     },
-                    "dbMessage": {
-                      "type": "object"
+                    "dbMessage" : {
+                      "type" : "object"
                     }
                   }
                 }
@@ -256,74 +242,72 @@
             }
           }
         },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["username", "password"],
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "example": "frozenburrito"
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "required" : [ "username", "password" ],
+                "properties" : {
+                  "username" : {
+                    "type" : "string",
+                    "example" : "frozenburrito"
                   },
-                  "password": {
-                    "type": "string",
-                    "example": "supermegasecurecan'tcrackthis"
+                  "password" : {
+                    "type" : "string",
+                    "example" : "supermegasecurecan'tcrackthis"
                   }
                 }
               }
             }
           },
-          "description": "User to login"
+          "description" : "User to login"
         },
-        "tags": ["Auth"]
+        "tags" : [ "Authentication" ]
       }
     },
-    "/api/user": {
-      "get": {
-        "summary": "Retrieves logged in user info",
-        "operationId": "getLoggedInUser",
-        "description": "Get the information for a logged in user",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "User",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+    "/api/user" : {
+      "get" : {
+        "summary" : "Retrieves logged in user info",
+        "operationId" : "getLoggedInUser",
+        "description" : "Get the information for a logged in user",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "User",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
                 }
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/MissingToken"
+          "400" : {
+            "$ref" : "#/components/responses/MissingToken"
           },
-          "401": {
-            "$ref": "#/components/responses/InvalidAuthorizationToken"
+          "401" : {
+            "$ref" : "#/components/responses/InvalidAuthorizationToken"
           },
-          "500": {
-            "description": "server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "DatabaseError"
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "example" : "DatabaseError"
                     },
-                    "message": {
-                      "type": "string",
-                      "example": "Could not retreive user"
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Could not retreive user"
                     },
-                    "dbMessage": {
-                      "type": "object"
+                    "dbMessage" : {
+                      "type" : "object"
                     }
                   }
                 }
@@ -331,52 +315,614 @@
             }
           }
         },
-        "tags": ["User"]
+        "tags" : [ "User" ]
+      }
+    },
+    "/api/data" : {
+      "get" : {
+        "summary" : "Retrieves all saved data from specified time period",
+        "operationId" : "getAllData",
+        "description" : "Get back all wake times, bed times, mood, and tiredness data from a time period specified in query parameters",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "start",
+          "schema" : {
+            "type" : "string",
+            "example" : "2-26-20"
+          },
+          "required" : false,
+          "description" : "Start of the time period"
+        }, {
+          "in" : "query",
+          "name" : "end",
+          "schema" : {
+            "type" : "string",
+            "example" : "2-26-20"
+          },
+          "required" : false,
+          "description" : "End of the time period"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "All data",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "userId" : {
+                      "type" : "integer",
+                      "example" : 5
+                    },
+                    "username" : {
+                      "type" : "string",
+                      "example" : "superuser"
+                    },
+                    "email" : {
+                      "type" : "string",
+                      "example" : "superuser@fakeemail.com"
+                    },
+                    "sleepRecommendation" : {
+                      "type" : "number",
+                      "example" : 7.76
+                    },
+                    "dates" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object",
+                        "properties" : {
+                          "date" : {
+                            "type" : "string",
+                            "example" : "2/26/20"
+                          },
+                          "dateId" : {
+                            "type" : "number",
+                            "example" : 1
+                          },
+                          "totalTimeInBed" : {
+                            "type" : "number",
+                            "example" : 8.2
+                          },
+                          "wakeUp" : {
+                            "type" : "object",
+                            "properties" : {
+                              "time" : {
+                                "type" : "string",
+                                "example" : "Feb 26, 2020, 8:13:32 AM"
+                              },
+                              "mood" : {
+                                "type" : "integer",
+                                "example" : 3
+                              },
+                              "tiredness" : {
+                                "type" : "integer",
+                                "example" : 2
+                              }
+                            }
+                          },
+                          "midday" : {
+                            "type" : "object",
+                            "properties" : {
+                              "mood" : {
+                                "type" : "integer",
+                                "example" : 4
+                              },
+                              "tiredness" : {
+                                "type" : "integer",
+                                "example" : 1
+                              }
+                            }
+                          },
+                          "bedtime" : {
+                            "type" : "object",
+                            "properties" : {
+                              "time" : {
+                                "type" : "string",
+                                "example" : "Feb 25, 2020, 9:15:48 PM"
+                              },
+                              "mood" : {
+                                "type" : "integer",
+                                "example" : 2
+                              },
+                              "tiredness" : {
+                                "type" : "integer",
+                                "example" : 4
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/MissingToken"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          },
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "example" : "DatabaseError"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Could not retreive user data"
+                    },
+                    "dbMessage" : {
+                      "type" : "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "Data" ]
+      }
+    },
+    "/api/night" : {
+      "post" : {
+        "summary" : "Add a night",
+        "operationId" : "addNight",
+        "description" : "Adds the info for the previous night",
+        "security" : [ {
+          "bearer" : [ ]
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "New date info",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "nightTime" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 128488
+                        },
+                        "bedtime" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "example" : "2024-02-29T21:15:27.615Z"
+                        },
+                        "userId" : {
+                          "type" : "string",
+                          "example" : 1
+                        }
+                      }
+                    },
+                    "nightMood" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 64271
+                        },
+                        "nightMood" : {
+                          "type" : "integer",
+                          "example" : 2
+                        },
+                        "nightId" : {
+                          "type" : "string",
+                          "example" : 128488
+                        }
+                      }
+                    },
+                    "nightTired" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 128488
+                        },
+                        "nightTired" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "nightId" : {
+                          "type" : "string",
+                          "example" : 128488
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "New date info",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Submitted data is incomplete or incorrect"
+                    },
+                    "errors" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
+                      },
+                      "example" : [ "Missing mood", "Missing tiredness", "Bedtime for this day has already been added" ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "required" : [ "time", "mood", "tiredness" ],
+                "properties" : {
+                  "time" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "example" : "2024-02-29T21:15:27.615Z"
+                  },
+                  "mood" : {
+                    "type" : "integer",
+                    "example" : 2
+                  },
+                  "tiredness" : {
+                    "type" : "integer",
+                    "example" : 3
+                  }
+                }
+              }
+            }
+          },
+          "description" : "Night to add"
+        },
+        "tags" : [ "Data" ]
+      }
+    },
+    "/api/wake" : {
+      "put" : {
+        "summary" : "Add a morning",
+        "operationId" : "addWake",
+        "description" : "Adds the info for the morning",
+        "security" : [ {
+          "bearer" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated date info",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "addMood" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 64271
+                        },
+                        "wakeMood" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "middayMood" : {
+                          "type" : "string",
+                          "example" : 1
+                        },
+                        "nightMood" : {
+                          "type" : "integer",
+                          "example" : 2
+                        },
+                        "nightId" : {
+                          "type" : "string",
+                          "example" : 128488
+                        }
+                      }
+                    },
+                    "addTired" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 128488
+                        },
+                        "wakeTired" : {
+                          "type" : "integer",
+                          "example" : 1
+                        },
+                        "middayTired" : {
+                          "type" : "string",
+                          "example" : 2
+                        },
+                        "nightTired" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "nightId" : {
+                          "type" : "string",
+                          "example" : 128488
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "New date info",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Submitted data is incomplete or incorrect"
+                    },
+                    "errors" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
+                      },
+                      "example" : [ "Missing time", "Missing mood", "Missing tiredness" ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "required" : [ "time", "mood", "tiredness" ],
+                "properties" : {
+                  "time" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "example" : "2024-03-01T07:15:27.615Z"
+                  },
+                  "mood" : {
+                    "type" : "integer",
+                    "example" : 3
+                  },
+                  "tiredness" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }
+            }
+          },
+          "description" : "Morning to add"
+        },
+        "tags" : [ "Data" ]
+      }
+    },
+    "/api/midday" : {
+      "put" : {
+        "summary" : "Add a midday's info",
+        "operationId" : "addMidday",
+        "description" : "Adds the info for midday",
+        "security" : [ {
+          "bearer" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Updated date info",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "wakeTime" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 128488
+                        },
+                        "bedtime" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "example" : "2024-02-29T21:15:27.615Z"
+                        },
+                        "wakeTime" : {
+                          "type" : "string",
+                          "format" : "date",
+                          "example" : "2024-03-01T07:15:27.615Z"
+                        },
+                        "userId" : {
+                          "type" : "string",
+                          "example" : 1
+                        }
+                      }
+                    },
+                    "addMood" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 64271
+                        },
+                        "wakeMood" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "middayMood" : {
+                          "type" : "string",
+                          "example" : null
+                        },
+                        "nightMood" : {
+                          "type" : "integer",
+                          "example" : 2
+                        },
+                        "nightId" : {
+                          "type" : "string",
+                          "example" : 128488
+                        }
+                      }
+                    },
+                    "addTired" : {
+                      "type" : "object",
+                      "properties" : {
+                        "id" : {
+                          "type" : "string",
+                          "example" : 128488
+                        },
+                        "wakeTired" : {
+                          "type" : "integer",
+                          "example" : 1
+                        },
+                        "middayTired" : {
+                          "type" : "string",
+                          "example" : null
+                        },
+                        "nightTired" : {
+                          "type" : "integer",
+                          "example" : 3
+                        },
+                        "nightId" : {
+                          "type" : "string",
+                          "example" : 128488
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "New date info",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Submitted data is incomplete or incorrect"
+                    },
+                    "errors" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
+                      },
+                      "example" : [ "Missing time", "Missing mood", "Missing tiredness" ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "required" : [ "time", "mood", "tiredness" ],
+                "properties" : {
+                  "time" : {
+                    "type" : "string",
+                    "format" : "date",
+                    "example" : "2024-03-01T07:15:27.615Z"
+                  },
+                  "mood" : {
+                    "type" : "integer",
+                    "example" : 3
+                  },
+                  "tiredness" : {
+                    "type" : "integer",
+                    "example" : 1
+                  }
+                }
+              }
+            }
+          },
+          "description" : "Morning to add"
+        },
+        "tags" : [ "Data" ]
       }
     }
   },
-  "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+  "components" : {
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
       }
     },
-    "responses": {
-      "MissingToken": {
-        "description": "Missing authentication token",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Failed to authenticate"
+    "responses" : {
+      "MissingToken" : {
+        "description" : "Missing authentication token",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "message" : {
+                  "type" : "string",
+                  "example" : "Failed to authenticate"
                 },
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
+                "errors" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
                   },
-                  "example": ["Missing authentication token"]
+                  "example" : [ "Missing authentication token" ]
                 }
               }
             }
           }
         }
       },
-      "InvalidAuthorizationToken": {
-        "description": "Invalid authorization token",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "You are not authorized to access this endpoint"
+      "InvalidAuthorizationToken" : {
+        "description" : "Invalid authorization token",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "message" : {
+                  "type" : "string",
+                  "example" : "You are not authorized to access this endpoint"
                 }
               }
             }
@@ -384,34 +930,126 @@
         }
       }
     },
-    "schemas": {
-      "User": {
-        "type": "object",
-        "required": ["id", "username", "password", "firstName", "email"],
-        "properties": {
-          "id": {
-            "type": "integer",
-            "example": 1
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "required" : [ "id", "username", "password", "firstName", "email" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 1
           },
-          "username": {
-            "type": "string",
-            "example": "frozenburrito"
+          "username" : {
+            "type" : "string",
+            "example" : "frozenburrito"
           },
-          "password": {
-            "type": "string",
-            "example": "supermegasecurecan'tcrackthis"
+          "password" : {
+            "type" : "string",
+            "example" : "supermegasecurecan'tcrackthis"
           },
-          "firstName": {
-            "type": "string",
-            "example": "George"
+          "firstName" : {
+            "type" : "string",
+            "example" : "George"
           },
-          "email": {
-            "type": "string",
-            "example": "George87@gmail.com"
+          "email" : {
+            "type" : "string",
+            "example" : "George87@gmail.com"
           }
         },
-        "description": "Sleep tracker user"
+        "description" : "Sleep tracker user"
+      },
+      "Bedhours" : {
+        "type" : "object",
+        "required" : [ "id", "bedtime", "waketime", "userId" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "bedtime" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2020-02-27T05:18:27.000Z"
+          },
+          "waketime" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2020-02-27T12:31:05.000Z"
+          },
+          "userId" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        },
+        "description" : "Record of night's sleep"
+      },
+      "Mood" : {
+        "type" : "object",
+        "required" : [ "id", "nightId" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "wakeMood" : {
+            "type" : "integer",
+            "example" : 3
+          },
+          "middayMood" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "nightMood" : {
+            "type" : "integer",
+            "example" : 2
+          },
+          "nightId" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        },
+        "description" : "Record of day's moods"
+      },
+      "Tiredness" : {
+        "type" : "object",
+        "required" : [ "id", "nightId" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "wakeTired" : {
+            "type" : "integer",
+            "example" : 3
+          },
+          "middayTired" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "nightTired" : {
+            "type" : "integer",
+            "example" : 2
+          },
+          "nightId" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        },
+        "description" : "Record of day's tiredness"
       }
     }
-  }
+  },
+  "tags" : [ {
+    "name" : "Documentation",
+    "description" : "Routes for API documentation"
+  }, {
+    "name" : "Authentication",
+    "description" : "Routes for authenticating a new or existing user"
+  }, {
+    "name" : "User",
+    "description" : "Routes for accessing resources relating to a user"
+  }, {
+    "name" : "Data",
+    "description" : "Routes for accessing resources"
+  } ]
 }
