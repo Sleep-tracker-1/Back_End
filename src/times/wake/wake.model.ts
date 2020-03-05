@@ -13,13 +13,13 @@ export type Wake = {
 }
 
 const updateTime = (
-  id: number,
+  id: Id,
   waketime: Wake['time'],
   bedtime: Night['time'],
   userId: Id
 ): QueryBuilder<[Bedhour]> =>
   db('bedhours')
-    .where({ id })
+    .where({ id: Number(id) })
     .update(
       {
         bedtime,

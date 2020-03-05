@@ -61,11 +61,11 @@ export const update = (
     wakeTired?: number | null
     middayTired?: number | null
     nightTired?: number | null
-    nightId: number
+    nightId: Id
   }
 ): QueryBuilder<[Tired]> =>
   db('tiredness')
-    .where({ night_id: tired.nightId })
+    .where({ night_id: Number(tired.nightId) })
     .update(
       {
         wake_tired: tired.wakeTired,
