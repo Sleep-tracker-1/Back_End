@@ -18,8 +18,8 @@ describe('/user', () => {
       email: faker.internet.email(),
     }
 
-    it("should respond with a 200 code and the user's info without password", () => {
-      return request(server)
+    it("should respond with a 200 code and the user's info without password", () =>
+      request(server)
         .post('/api/auth/register')
         .send(user)
         .then(response =>
@@ -32,8 +32,7 @@ describe('/user', () => {
               firstName: user.firstName,
               email: user.email,
             })
-        )
-    })
+        ))
 
     it("should return a 500 database error if user can't be retrieved", () => {
       const req = {

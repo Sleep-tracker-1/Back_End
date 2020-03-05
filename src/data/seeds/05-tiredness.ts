@@ -1,14 +1,10 @@
 import Knex from 'knex'
 import getRandomNumber from '../../utils/randomNumberGenerator'
-import { getNights } from './03-mood'
+import { getNights } from './04-mood'
 
 const generateTiredness = (
   nights: {
     id: number
-    night_id: number
-    wake_tired: number
-    midday_tired: number
-    night_tired: number
   }[]
 ): {
   night_id: number

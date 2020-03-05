@@ -1,3 +1,4 @@
+import { add } from 'date-fns'
 import db from '../../../data/dbConfig'
 import { find, findById, insert, update, remove } from '../bedhours.model'
 import { buildBedhour } from '../../../utils/test/generate'
@@ -23,8 +24,6 @@ describe('bedhours model', () => {
         1
       )
 
-      console.log(bedHour1)
-
       await insert(bedHour1)
       await insert(bedHour2)
       await insert(bedHour3)
@@ -48,15 +47,17 @@ describe('bedhours model', () => {
       ).toEqual([
         {
           id: 1,
-          userId: bedHour1.userId,
+          wakeDate: add(new Date(bedHour1.wakeDate), { hours: 8 }),
           waketime: bedHour1.waketime,
           bedtime: bedHour1.bedtime,
+          userId: bedHour1.userId,
         },
         {
           id: 2,
-          userId: bedHour2.userId,
+          wakeDate: add(new Date(bedHour2.wakeDate), { hours: 8 }),
           waketime: bedHour2.waketime,
           bedtime: bedHour2.bedtime,
+          userId: bedHour2.userId,
         },
       ])
     })
@@ -86,8 +87,9 @@ describe('bedhours model', () => {
 
       expect(await findById(2)).toEqual({
         id: 2,
-        bedtime: bedHour2.bedtime,
+        wakeDate: add(new Date(bedHour2.wakeDate), { hours: 8 }),
         waketime: bedHour2.waketime,
+        bedtime: bedHour2.bedtime,
         userId: bedHour2.userId,
       })
     })
@@ -104,8 +106,9 @@ describe('bedhours model', () => {
       expect(await insert(bedHour1)).toEqual([
         {
           id: 1,
-          bedtime: bedHour1.bedtime,
+          wakeDate: add(new Date(bedHour1.wakeDate), { hours: 7 }),
           waketime: bedHour1.waketime,
+          bedtime: bedHour1.bedtime,
           userId: bedHour1.userId,
         },
       ])
@@ -123,8 +126,9 @@ describe('bedhours model', () => {
       expect(await insert(bedHour1)).toEqual([
         {
           id: 1,
-          bedtime: bedHour1.bedtime,
+          wakeDate: add(new Date(bedHour1.wakeDate), { hours: 8 }),
           waketime: bedHour1.waketime,
+          bedtime: bedHour1.bedtime,
           userId: bedHour1.userId,
         },
       ])
@@ -138,8 +142,9 @@ describe('bedhours model', () => {
       expect(await update(1, bedHourToUpdate)).toEqual([
         {
           id: 1,
-          bedtime: bedHourToUpdate.bedtime,
+          wakeDate: add(new Date(bedHourToUpdate.wakeDate), { hours: 7 }),
           waketime: bedHourToUpdate.waketime,
+          bedtime: bedHourToUpdate.bedtime,
           userId: bedHourToUpdate.userId,
         },
       ])

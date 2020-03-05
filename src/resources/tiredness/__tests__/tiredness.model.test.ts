@@ -1,3 +1,4 @@
+import { add } from 'date-fns'
 import { buildBedhour, buildTired } from '../../../utils/test/generate'
 import db from '../../../data/dbConfig'
 import { insert as insertBedhours } from '../../bedhours/bedhours.model'
@@ -162,6 +163,7 @@ describe('tired model', () => {
           id: 1,
           bedtime: bedHour.bedtime,
           waketime: bedHour.waketime,
+          wakeDate: add(new Date(bedHour.wakeDate), { hours: 8 }),
           userId: bedHour.userId,
         },
       ])

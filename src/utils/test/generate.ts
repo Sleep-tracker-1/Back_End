@@ -1,8 +1,7 @@
 import { Response } from 'express'
 import faker from 'faker'
 import bcrypt from 'bcrypt'
-import { add } from 'date-fns'
-import { Id } from '../crud'
+import { add, format } from 'date-fns'
 
 export interface MockResponse extends Response {
   status: jest.Mock
@@ -39,8 +38,13 @@ export const buildBedhour = (
     seconds: number
   },
   timeToAdd: { hours: number; minutes: number; seconds: number },
-  userId: number
-): { bedtime: Date; waketime: Date; userId: number } => {
+  userId?: number
+): {
+  waketime: Date
+  bedtime: Date
+  wakeDate: string
+  userId: number | undefined
+} => {
   const bedtime = new Date(
     startDateTime.year,
     startDateTime.month,
@@ -55,9 +59,12 @@ export const buildBedhour = (
     seconds: timeToAdd.seconds,
   })
 
+  const wakeDate = format(waketime, 'yyyy-MM-dd')
+
   return {
     bedtime,
     waketime,
+    wakeDate,
     userId,
   }
 }

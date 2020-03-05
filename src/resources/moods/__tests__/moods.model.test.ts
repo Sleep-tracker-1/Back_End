@@ -1,3 +1,4 @@
+import { add } from 'date-fns'
 import { buildBedhour, buildMood } from '../../../utils/test/generate'
 import db from '../../../data/dbConfig'
 import { find, insert, update, findById, remove } from '../moods.model'
@@ -162,6 +163,7 @@ describe('moods model', () => {
           id: 1,
           bedtime: bedHour.bedtime,
           waketime: bedHour.waketime,
+          wakeDate: add(new Date(bedHour.wakeDate), { hours: 8 }),
           userId: bedHour.userId,
         },
       ])
