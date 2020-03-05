@@ -31,7 +31,7 @@ export const findBedtime = (
 ): QueryBuilder<[Bedhour]> =>
   db('bedhours')
     .whereBetween('bedtime', [startDate, endDate])
-    .select('id')
+    .select('id', 'bedtime')
 
 export const findById = (id: Id): QueryBuilder<Bedhour> =>
   db('bedhours')

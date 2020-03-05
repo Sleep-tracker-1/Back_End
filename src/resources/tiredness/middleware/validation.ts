@@ -16,7 +16,7 @@ export const hasNightTired = (req: Request): boolean =>
   typeof req.body.nightTired !== 'undefined'
 export const hasNightId = (req: Request): boolean => !!req.body.nightId
 
-export const bodyValidator = validator('Missing bed hour data', hasBody)
+export const bodyValidator = validator('Missing tiredness data', hasBody)
 export const wakeTiredValidator = validator('Missing wake tired', hasWakeTired)
 export const middayTiredValidator = validator(
   'Missing midday tired',

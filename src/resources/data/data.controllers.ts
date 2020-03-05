@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express'
-import { add, differenceInMinutes, format } from 'date-fns'
+import { differenceInMinutes, format } from 'date-fns'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { findById } from '../users/users.model'
 import { getAllData, SleepData } from './data.model'
