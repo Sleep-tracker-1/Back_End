@@ -19,6 +19,22 @@ export const find = (
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
     .select('id', 'bedtime', 'waketime', 'user_id as userId')
 
+export const findWaketimeFromMidday = (
+  startDate: Date = sub(new Date(), { days: 1 }),
+  endDate: Date = new Date()
+): QueryBuilder<[Bedhour]> =>
+  db('bedhours')
+    .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
+    .select('id')
+
+export const findBedtime = (
+  startDate: Date = sub(new Date(), { days: 30 }),
+  endDate: Date = new Date()
+): QueryBuilder<[Bedhour]> =>
+  db('bedhours')
+    .whereBetween('bedtime', [startDate, add(endDate, { days: 1 })])
+    .select('id')
+
 export const findById = (id: Id): QueryBuilder<Bedhour> =>
   db('bedhours')
     .where({ id })
@@ -65,6 +81,8 @@ export const remove = (id: Id): QueryBuilder<number> =>
 
 export default {
   find,
+  findBedtime,
+  findWaketimeFromMidday,
   findById,
   insert,
   update,

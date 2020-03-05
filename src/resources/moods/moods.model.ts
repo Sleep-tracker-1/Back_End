@@ -55,7 +55,15 @@ export const insert = (mood: Omit<Mood, 'id'>): QueryBuilder<[Mood]> =>
     ]
   )
 
-export const update = (id: Id, mood: Omit<Mood, 'id'>): QueryBuilder<[Mood]> =>
+export const update = (
+  id: Id,
+  mood: {
+    wakeMood?: number | null
+    middayMood?: number | null
+    nightMood?: number | null
+    nightId: number
+  }
+): QueryBuilder<[Mood]> =>
   db('mood')
     .where({ night_id: mood.nightId })
     .update(

@@ -3,7 +3,7 @@ import { add, sub } from 'date-fns'
 import db from '../../data/dbConfig'
 import { Id } from '../../utils/crud'
 
-type Tired = {
+export type Tired = {
   id: Id
   wakeTired: number | null
   middayTired: number | null
@@ -57,7 +57,12 @@ export const insert = (tired: Omit<Tired, 'id'>): QueryBuilder<[Tired]> =>
 
 export const update = (
   id: Id,
-  tired: Omit<Tired, 'id'>
+  tired: {
+    wakeTired?: number | null
+    middayTired?: number | null
+    nightTired?: number | null
+    nightId: number
+  }
 ): QueryBuilder<[Tired]> =>
   db('tiredness')
     .where({ night_id: tired.nightId })

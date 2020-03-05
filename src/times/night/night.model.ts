@@ -3,8 +3,9 @@ import { Mood } from '../../resources/moods/moods.model'
 import { Bedhour } from '../../resources/bedhours/bedhours.model'
 import { Id } from '../../utils/crud'
 import db from '../../data/dbConfig'
+import { Tired } from '../../resources/tiredness/tiredness.model'
 
-type Night = {
+export type Night = {
   time: Date
   mood: number
   tiredness: number
@@ -37,7 +38,7 @@ const insertMood = (
 const insertTiredness = (
   tired: Night['tiredness'],
   nightId: number
-): QueryBuilder<[Mood]> =>
+): QueryBuilder<[Tired]> =>
   db('tiredness').insert(
     {
       night_tired: tired,

@@ -8,6 +8,8 @@ import dataRouter from '../resources/data/data.router'
 import moodsRouter from '../resources/moods/moods.router'
 import tirednessRouter from '../resources/tiredness/tiredness.router'
 import nightRouter from '../times/night/night.router'
+import wakeRouter from '../times/wake/wake.router'
+import middayRouter from '../times/midday/midday.router'
 
 const router = Router()
 
@@ -18,6 +20,8 @@ router.use('/moods', moodsRouter)
 router.use('/tirendess', tirednessRouter)
 router.use('/data', dataRouter)
 router.use('/night', nightRouter)
+router.use('/wake', wakeRouter)
+router.use('/midday', middayRouter)
 
 router.route('/').get(controllers.apiRoot)
 

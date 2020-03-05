@@ -10,7 +10,7 @@
     "outDir": "./build",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "target": "es2017",
+    "target": "esNext",
     "lib": ["esnext"],
     "allowJs": true,
     "esModuleInterop": true,

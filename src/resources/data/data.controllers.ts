@@ -22,8 +22,6 @@ const getData = async (
       new Date(end[2], end[0] - 1, end[1])
     )
 
-    console.log(new Date(start[2], start[0] - 1, start[1]))
-
     const formattedData = sleepData.map((night: SleepData) => {
       return {
         date: format(night.waketime, 'M/d/yy'),

@@ -8,8 +8,11 @@ const addNight = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    console.log(req.body.time)
+    console.log(new Date(req.body.time))
+
     const [nightTime] = await nightModel.insertTime(
-      req.body.time,
+      new Date(req.body.time),
       req.decodedJwt!.subject
     )
     const [nightMood] = await nightModel.insertMood(req.body.mood, nightTime.id)
