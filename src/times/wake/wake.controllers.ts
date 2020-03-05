@@ -12,12 +12,10 @@ const addWake = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    console.log({ nonFormat: new Date(req.body.time) })
     const [dateToUpdate] = await findBedtime(
-      sub(
-        new Date(format(new Date(req.body.time), 'yyyy-MM-dd hh:mm:ss.SSSx')),
-        { days: 1 }
-      ),
-      new Date(format(new Date(req.body.time), 'yyyy-MM-dd hh:mm:ss.SSSx'))
+      sub(new Date(req.body.time), { days: 1 }),
+      new Date(req.body.time)
     )
 
     const addMood = await updateMood(dateToUpdate.id, {
