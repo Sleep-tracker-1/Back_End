@@ -37,6 +37,6 @@ export const getAllData = (
       'mood.night_mood as nightMood',
       'tiredness.night_tired as nightTired'
     )
-    .orderBy('bedhours.waketime')
+    .orderBy('bedhours.waketime', 'asc')
 
 export default { getAllData }

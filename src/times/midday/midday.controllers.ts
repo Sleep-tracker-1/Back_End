@@ -11,6 +11,7 @@ const addMidday = async (
 ): Promise<void> => {
   try {
     const [dateToUpdate] = await findWaketimeFromMidday()
+    console.log('hit', dateToUpdate)
 
     const addMood = await updateMood(dateToUpdate.id, {
       middayMood: req.body.mood,

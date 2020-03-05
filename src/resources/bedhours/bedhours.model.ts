@@ -22,7 +22,7 @@ export const find = (
 export const findWaketimeFromMidday = (): QueryBuilder<[Bedhour]> =>
   db('bedhours')
     .select('id')
-    .orderBy('waketime')
+    .orderBy('waketime', 'desc')
     .limit(1)
 
 export const findBedtime = (
