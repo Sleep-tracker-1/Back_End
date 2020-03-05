@@ -19,13 +19,11 @@ export const find = (
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
     .select('id', 'bedtime', 'waketime', 'user_id as userId')
 
-export const findWaketimeFromMidday = (
-  startDate: Date = sub(new Date(), { days: 1 }),
-  endDate: Date = new Date()
-): QueryBuilder<[Bedhour]> =>
+export const findWaketimeFromMidday = (): QueryBuilder<[Bedhour]> =>
   db('bedhours')
-    .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
     .select('id')
+    .orderBy('waketime')
+    .limit(1)
 
 export const findBedtime = (
   startDate: Date,

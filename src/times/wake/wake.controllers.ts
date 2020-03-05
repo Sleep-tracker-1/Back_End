@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express'
-import { format, sub } from 'date-fns'
+import { sub } from 'date-fns'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { update as updateMood } from '../../resources/moods/moods.model'
 import { update as updateTired } from '../../resources/tiredness/tiredness.model'
@@ -12,7 +12,6 @@ const addWake = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    console.log({ nonFormat: new Date(req.body.time) })
     const [dateToUpdate] = await findBedtime(
       sub(new Date(req.body.time), { days: 1 }),
       new Date(req.body.time)
