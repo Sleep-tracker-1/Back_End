@@ -9,7 +9,7 @@ const addNight = async (
 ): Promise<void> => {
   try {
     const [nightTime] = await nightModel.insertTime(
-      new Date(req.body.time),
+      req.body.time,
       req.decodedJwt!.subject
     )
     const [nightMood] = await nightModel.insertMood(req.body.mood, nightTime.id)
