@@ -171,7 +171,7 @@ describe('tired model', () => {
 
       const tiredToUpdate = buildTired(3, null, null, 1)
 
-      expect(await update(tiredToUpdate)).toEqual([
+      expect(await update(2, tiredToUpdate)).toEqual([
         {
           id: 1,
           wakeTired: tiredToUpdate.wakeTired,

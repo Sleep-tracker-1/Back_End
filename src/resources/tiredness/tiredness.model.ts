@@ -1,5 +1,5 @@
 import { QueryBuilder } from 'knex'
-import { add } from 'date-fns'
+import { add, sub } from 'date-fns'
 import db from '../../data/dbConfig'
 import { Id } from '../../utils/crud'
 
@@ -13,7 +13,7 @@ type Tired = {
 
 export const find = (
   startDate: Date = sub(new Date(), { days: 30 }),
-  endDate: Date = (Date = new Date())
+  endDate: Date = new Date()
 ): QueryBuilder<[Tired]> =>
   db('tiredness')
     .join('bedhours', 'tiredness.night_id', 'bedhours.id')

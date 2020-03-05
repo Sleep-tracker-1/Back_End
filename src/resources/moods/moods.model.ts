@@ -3,7 +3,7 @@ import { add, sub } from 'date-fns'
 import db from '../../data/dbConfig'
 import { Id } from '../../utils/crud'
 
-type Mood = {
+export type Mood = {
   id: Id
   wakeMood: number | null
   middayMood: number | null

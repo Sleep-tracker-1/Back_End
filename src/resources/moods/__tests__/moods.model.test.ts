@@ -171,7 +171,7 @@ describe('moods model', () => {
 
       const moodToUpdate = buildMood(3, null, null, 1)
 
-      expect(await update(moodToUpdate)).toEqual([
+      expect(await update(2, moodToUpdate)).toEqual([
         {
           id: 1,
           wakeMood: moodToUpdate.wakeMood,
