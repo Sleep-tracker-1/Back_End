@@ -18,11 +18,11 @@ const getData = async (
     const userInfo = await findById(req.decodedJwt!.subject)
     const sleepData = await getAllData(
       req.decodedJwt!.subject,
-      new Date(start[2], start[0], start[1]),
-      new Date(end[2], end[0], end[1])
+      new Date(start[2], start[0] - 1, start[1]),
+      new Date(end[2], end[0] - 1, end[1])
     )
 
-    console.log(new Date(start[2], start[0], start[1]))
+    console.log(new Date(start[2], start[0] - 1, start[1]))
 
     const formattedData = sleepData.map((night: SleepData) => {
       return {
