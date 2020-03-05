@@ -5,7 +5,7 @@ import server from '../../server/server'
 import db from '../../data/dbConfig'
 import { generateToken, login } from '../auth.controllers'
 import { DatabaseError } from '../../server/middleware/errorHandler'
-import { buildNext, MockResponse } from '../../test/utils/generate'
+import { buildNext, MockResponse } from '../../utils/test/generate'
 
 describe('/auth', () => {
   beforeEach(() => db.raw('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE'))

@@ -1,5 +1,5 @@
 import Knex, { QueryBuilder } from 'knex'
-import { add } from 'date-fns'
+import { add, format } from 'date-fns'
 import getRandomNumber from '../../utils/randomNumberGenerator'
 
 const generateTimestamps = (): {
@@ -13,7 +13,7 @@ const generateTimestamps = (): {
     return [...Array(66)].map((_days, dateIndex) => {
       const day = add(startDate, { days: dateIndex })
       const bedtime = add(day, {
-        hours: getRandomNumber(0, 7),
+        hours: getRandomNumber(24, 36),
         minutes: getRandomNumber(0, 60),
         seconds: getRandomNumber(0, 60),
       })
@@ -27,6 +27,7 @@ const generateTimestamps = (): {
         user_id: userIndex + 1,
         bedtime,
         waketime,
+        wake_date: format(waketime, 'yyyy-MM-dd'),
       }
     })
   })

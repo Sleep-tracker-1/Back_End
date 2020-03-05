@@ -10,7 +10,7 @@ const getUser = async (
 ): Promise<void> => {
   try {
     // Don't want to ever respond with the user's hashed password
-    const { password, first_name: firstName, ...user } = await findById(
+    const { password, firstName, ...user } = await findById(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       req.decodedJwt!.subject
     )

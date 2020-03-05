@@ -7,10 +7,6 @@ export const getNights = (knex: Knex): QueryBuilder<{ id: number }[]> =>
 const generateMoods = (
   nights: {
     id: number
-    night_id: number
-    wake_mood: number
-    midday_mood: number
-    night_mood: number
   }[]
 ): {
   night_id: number

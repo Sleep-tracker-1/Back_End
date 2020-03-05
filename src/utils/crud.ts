@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 import { QueryBuilder } from 'knex'
+import { sub } from 'date-fns'
 import { DatabaseError } from '../server/middleware/errorHandler'
+import { AuthorizationRequest } from '../auth/middleware/checkAuth'
 
 export type Id = number | string
 
 type Model = {
-  findAll: () => QueryBuilder<any[]>
+  find: (startDate?: Date, endDate?: Date) => QueryBuilder
   findById: (id: Id) => QueryBuilder<any>
-  insert: (item: any) => Promise<[any]>
-  update: (id: Id, item: any) => Promise<any>
+  insert: (item: any) => QueryBuilder<[any]>
+  update: (id: Id, item: any) => QueryBuilder<[any]>
   remove: (id: Id) => QueryBuilder<number>
 }
 
@@ -19,7 +21,7 @@ export const getMany = (model: Model) => async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const items = await model.findAll()
+    const items = await model.find()
     res.status(200).json(items)
   } catch (error) {
     next(
@@ -42,7 +44,7 @@ export const getOne = (model: Model) => async (
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve employees',
+        message: 'Could not retrieve items',
         dbMessage: error,
       })
     )
@@ -50,17 +52,23 @@ export const getOne = (model: Model) => async (
 }
 
 export const createOne = (model: Model) => async (
-  req: Request,
+  req: AuthorizationRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const item = await model.insert(req.body)
+    const [item] = req.baseUrl.includes('/bedhours')
+      ? await model.insert({
+          ...req.body,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          userId: req.decodedJwt!.subject,
+        })
+      : await model.insert(req.body)
     res.status(201).json(item)
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve employees',
+        message: 'Adding item failed',
         dbMessage: error,
       })
     )
@@ -68,17 +76,23 @@ export const createOne = (model: Model) => async (
 }
 
 export const updateOne = (model: Model) => async (
-  req: Request,
+  req: AuthorizationRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const updated = await model.update(req.params.id, req.body)
+    const updated = req.baseUrl.includes('/bedhours')
+      ? await model.update(req.params.id, {
+          ...req.body,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          userId: req.decodedJwt!.subject,
+        })
+      : await model.update(req.params.id, req.body)
     res.status(200).json(updated)
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve employees',
+        message: 'Could not retrieve items',
         dbMessage: error,
       })
     )
@@ -96,7 +110,7 @@ export const removeOne = (model: Model) => async (
   } catch (error) {
     next(
       new DatabaseError({
-        message: 'Could not retrieve employees',
+        message: 'Could not retrieve items',
         dbMessage: error,
       })
     )

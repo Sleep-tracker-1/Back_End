@@ -1,6 +1,6 @@
 import db from '../../../data/dbConfig'
 import { findBy, findById, insert, remove, update } from '../users.model'
-import { buildUser } from '../../../test/utils/generate'
+import { buildUser } from '../../../utils/test/generate'
 
 beforeEach(() => db.raw('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE'))
 
@@ -18,7 +18,7 @@ describe('users model', () => {
           id: 1,
           username: user1.username,
           password: user1.password,
-          first_name: user1.firstName,
+          firstName: user1.firstName,
           email: user1.email,
         },
       ])
@@ -37,7 +37,7 @@ describe('users model', () => {
         id: 1,
         username: user1.username,
         password: user1.password,
-        first_name: user1.firstName,
+        firstName: user1.firstName,
         email: user1.email,
       })
     })
