@@ -6,6 +6,6 @@ import { calculateSleepData } from './middleware/sleepData'
 
 const router = Router()
 
-router.route('/').get(checkAuth, calculateSleepData, controllers.getData)
+router.route('/').get(checkAuth, controllers.getData)
 
 export default router
