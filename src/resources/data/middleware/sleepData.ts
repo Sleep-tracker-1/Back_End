@@ -21,14 +21,18 @@ export const calculateSleepData = async (
   const bedHours = await find(sub(new Date(), { years: 100 }), new Date())
 
   if (bedHours.length > 30) {
-    PythonShell.run('/dataScience/analysis.py', options, (error, results) => {
-      if (error) {
-        next(error)
-      } else {
-        req.sleepData = [results]
-        next()
+    PythonShell.run(
+      '/app/dataScience/analysis.py',
+      options,
+      (error, results) => {
+        if (error) {
+          next(error)
+        } else {
+          req.sleepData = [results]
+          next()
+        }
       }
-    })
+    )
   } else {
     next()
   }
