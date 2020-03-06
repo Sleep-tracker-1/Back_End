@@ -3,7 +3,7 @@ import faker from 'faker'
 import { Request } from 'express'
 import server from '../../../server/server'
 import db from '../../../data/dbConfig'
-import getUser from '../users.controllers'
+import controllers from '../users.controllers'
 import { buildNext, MockResponse } from '../../../utils/test/generate'
 import { DatabaseError } from '../../../server/middleware/errorHandler'
 
@@ -56,7 +56,7 @@ describe('/user', () => {
         .post('/api/auth/register')
         .send(user)
         .then(async () => {
-          await getUser(req, res, next)
+          await controllers.getUser(req, res, next)
           expect(next).toHaveBeenCalledTimes(1)
           expect(next).toHaveBeenCalledWith(error)
           expect(res.status).not.toHaveBeenCalled()

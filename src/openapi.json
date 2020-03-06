@@ -318,6 +318,64 @@
         "tags" : [ "User" ]
       }
     },
+    "/api/user/delete" : {
+      "delete" : {
+        "summary" : "Deletes a user",
+        "operationId" : "deleteUser",
+        "description" : "Delete a logged in user",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deletion message",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "message" : {
+                      "type" : "string",
+                      "example" : "User deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/MissingToken"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          },
+          "500" : {
+            "description" : "Server error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "properties" : {
+                    "name" : {
+                      "type" : "string",
+                      "example" : "DatabaseError"
+                    },
+                    "message" : {
+                      "type" : "string",
+                      "example" : "Could not delete user"
+                    },
+                    "dbMessage" : {
+                      "type" : "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags" : [ "User" ]
+      }
+    },
     "/api/data" : {
       "get" : {
         "summary" : "Retrieves all saved data from specified time period",
@@ -572,6 +630,9 @@
           },
           "401" : {
             "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/DbError"
           }
         },
         "requestBody" : {
@@ -699,6 +760,9 @@
           },
           "401" : {
             "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/DbError"
           }
         },
         "requestBody" : {
@@ -849,6 +913,9 @@
           },
           "401" : {
             "$ref" : "#/components/responses/InvalidAuthorizationToken"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/DbError"
           }
         },
         "requestBody" : {
@@ -923,6 +990,29 @@
                 "message" : {
                   "type" : "string",
                   "example" : "You are not authorized to access this endpoint"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DbError" : {
+        "description" : "Server error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "name" : {
+                  "type" : "string",
+                  "example" : "DatabaseError"
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "Could not perform operation"
+                },
+                "dbMessage" : {
+                  "type" : "object"
                 }
               }
             }

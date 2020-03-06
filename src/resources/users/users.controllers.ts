@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express'
-import { findById } from './users.model'
+import { findById, remove } from './users.model'
 import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
 import { DatabaseError } from '../../server/middleware/errorHandler'
 
@@ -25,4 +25,22 @@ const getUser = async (
   }
 }
 
-export default getUser
+const deleteUser = async (
+  req: AuthorizationRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    await remove(req.decodedJwt!.subject)
+    res.status(200).json({ message: 'User deleted' })
+  } catch (error) {
+    next(
+      new DatabaseError({
+        message: 'Could not delete user',
+        dbMessage: error,
+      })
+    )
+  }
+}
+
+export default { getUser, deleteUser }
