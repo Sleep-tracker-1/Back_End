@@ -19,6 +19,7 @@ export const calculateSleepData = async (
   }
 
   const bedHours = await find(sub(new Date(), { years: 100 }), new Date())
+  console.log({ bedHours: bedHours.length })
 
   if (bedHours.length > 30) {
     PythonShell.run(

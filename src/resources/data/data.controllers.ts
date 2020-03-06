@@ -12,6 +12,7 @@ const getData = async (
 ): Promise<void> => {
   try {
     const averages = req.sleepData.match(/\d+\.+\d+/g).map(Number)
+    console.log(averages)
     const start = req.query.start
       ? req.query.start.split('-')
       : '1-1-1900'.split('-')

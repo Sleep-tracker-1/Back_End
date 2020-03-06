@@ -76,7 +76,7 @@ def hours_analysis(username):
     #model = RandomForestRegressor(n_jobs=-1, max_depth=30, min_samples_leaf = 2, min_samples_split=11, n_estimators=850)
     model = make_pipeline(PolynomialFeatures(degree=2), LinearRegression())
     model.fit(X, y)
-    optimal_hours = (model.predict([[4, 4, 4, 1, 1, 1]])) / 3600
+    optimal_hours = (model.predict([[3, 3, 3, 1, 1, 1]])) / 3600
     mood_average = ((sum(morning_mood_list)/len(morning_mood_list)) + (sum(midday_mood_list)/len(midday_mood_list)) + (sum(evening_mood_list)/len(evening_mood_list))) / 3
     tired_average = ((sum(morning_tired_list)/len(morning_tired_list)) + (sum(midday_tired_list)/len(midday_tired_list)) + (sum(evening_tired_list)/len(evening_tired_list))) / 3
     averages = np.array([df['hours_in_bed'].mean().total_seconds() / 60 / 60, mood_average, tired_average]).tolist()
