@@ -9,19 +9,16 @@ import {
 
 const { Success } = Validation
 
-export const hasBody = (req: Request): boolean => !!req.body
-export const hasBedtime = (req: Request): boolean => !!req.body.bedtime
-export const hasWaketime = (req: Request): boolean => !!req.body.waketime
+const hasBedorWakeTime = (req: Request): boolean =>
+  !!req.body || !!req.body.waketime || !!req.body.bedtime
 
-export const bodyValidator = validator('Missing bed hour data', hasBody)
-export const bedTimeValidator = validator('Missing bedtime', hasBedtime)
-export const wakeTimeValidator = validator('Missing waketime', hasWaketime)
+export const bedWakeTimeValidator = validator(
+  'Missing bedtime or waketime',
+  hasBedorWakeTime
+)
 
 export const validationResult = (req: Request): Matcher =>
-  Success()
-    .concat(bodyValidator(req))
-    .concat(bedTimeValidator(req))
-    .concat(wakeTimeValidator(req))
+  Success().concat(bedWakeTimeValidator(req))
 
 export const checkValidation = (
   req: Request,
