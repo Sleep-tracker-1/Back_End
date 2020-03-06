@@ -27,14 +27,17 @@ export const calculateSleepData = async (
       options,
       (error, results) => {
         if (error) {
+          console.log({ error })
           next(error)
         } else {
+          console.log({ results })
           req.sleepData = [results]
           next()
         }
       }
     )
   } else {
+    console.log('Not called')
     next()
   }
 }
