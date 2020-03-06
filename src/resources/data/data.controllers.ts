@@ -11,12 +11,7 @@ const getData = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    console.log({ 'req.sleepData': req.sleepData[0] })
-    console.log({
-      parsedData: req.sleepData[0].match(/\d+\.+\d+/g).map(Number),
-    })
-    const averages = req.sleepData.match(/\d+\.+\d+/g).map(Number)
-    console.log(averages)
+    const averages = req.sleepData[0].match(/\d+\.+\d+/g).map(Number)
     const start = req.query.start
       ? req.query.start.split('-')
       : '1-1-1900'.split('-')
@@ -33,10 +28,6 @@ const getData = async (
       return {
         date: format(night.waketime, 'M/d/yy'),
         dateId: night.dateId,
-        sleepRecommendation: averages[0],
-        averageHoursOfSleep: averages[1],
-        averageMood: averages[2],
-        averageTiredness: averages[3],
         totalTimeInBed: (
           differenceInMinutes(night.waketime, night.bedtime) / 60
         ).toFixed(1),
@@ -61,7 +52,10 @@ const getData = async (
       userId: userInfo.id,
       username: userInfo.username,
       email: userInfo.email,
-      sleepRecommendation: null,
+      sleepRecommendation: averages[0],
+      averageHoursOfSleep: averages[1],
+      averageMood: averages[2],
+      averageTiredness: averages[3],
       dates: formattedData,
     }
 

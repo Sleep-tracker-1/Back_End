@@ -31,7 +31,7 @@ export const calculateSleepData = async (
           next(error)
         } else {
           console.log({ results })
-          req.sleepData = [results]
+          req.sleepData = results
           next()
         }
       }
