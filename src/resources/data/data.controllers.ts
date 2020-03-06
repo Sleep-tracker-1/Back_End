@@ -11,6 +11,8 @@ const getData = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    console.log({ 'req.sleepData': req.sleepData })
+    console.log({ parsedData: req.sleepData.match(/\d+\.+\d+/g).map(Number) })
     const averages = req.sleepData.match(/\d+\.+\d+/g).map(Number)
     console.log(averages)
     const start = req.query.start
