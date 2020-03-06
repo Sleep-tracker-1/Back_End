@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import Validation from 'folktale/validation'
-import { differenceInHours, format, sub } from 'date-fns'
+import { differenceInHours, sub } from 'date-fns'
 import {
   validator,
   didItValidate,

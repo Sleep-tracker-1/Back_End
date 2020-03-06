@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
-
 import { UnauthorizedError } from '../../server/middleware/errorHandler'
-import { ValidationError } from '../../utils/validator'
 import secret from '../../secrets'
 
 type DecodedJwt = {

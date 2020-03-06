@@ -9,29 +9,20 @@ import {
 
 const { Success } = Validation
 
-export const hasBody = (req: Request): boolean => !!req.body
-export const hasWakeMood = (req: Request): boolean => !!req.body.wakeMood
-export const hasMiddayMood = (req: Request): boolean => !!req.body.middayMood
-export const hasNightMood = (req: Request): boolean =>
-  typeof req.body.nightMood !== 'undefined'
-export const hasNightId = (req: Request): boolean => !!req.body.nightId
+const hasItemToUpdate = (req: Request): boolean =>
+  !!req.body ||
+  !!req.body.wakeMood ||
+  !!req.body.middayMood ||
+  !!req.body.nightMood ||
+  !!req.body.nightId
 
-export const bodyValidator = validator('Missing bed hour data', hasBody)
-export const wakeMoodValidator = validator('Missing wake mood', hasWakeMood)
-export const middayMoodValidator = validator(
-  'Missing midday mood',
-  hasMiddayMood
+const updateValidator = validator(
+  'Missing mood or nightId to update',
+  hasItemToUpdate
 )
-export const nightMoodValidator = validator('Missing night mood', hasNightMood)
-export const nightIdValidator = validator('Missing night Id', hasNightId)
 
-export const validationResult = (req: Request): Matcher =>
-  Success()
-    .concat(bodyValidator(req))
-    .concat(wakeMoodValidator(req))
-    .concat(middayMoodValidator(req))
-    .concat(nightMoodValidator(req))
-    .concat(nightIdValidator(req))
+const validationResult = (req: Request): Matcher =>
+  Success().concat(updateValidator(req))
 
 export const checkValidation = (
   req: Request,
