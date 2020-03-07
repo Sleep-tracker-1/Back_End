@@ -11,7 +11,6 @@ const getData = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const averages = req.sleepData[0].match(/\d+\.+\d+/g).map(Number)
     const start = req.query.start
       ? req.query.start.split('-')
       : '1-1-1900'.split('-')
@@ -52,14 +51,21 @@ const getData = async (
       userId: userInfo.id,
       username: userInfo.username,
       email: userInfo.email,
-      sleepRecommendation: averages[0],
-      averageHoursOfSleep: averages[1],
-      averageMood: averages[2],
-      averageTiredness: averages[3],
-      dates: formattedData,
     }
 
-    res.status(200).json(data)
+    if (req.sleepData) {
+      const averages = req.sleepData[0].match(/\d+\.+\d+/g).map(Number)
+      const sleepAverages = {
+        sleepRecommendation: averages[0],
+        averageHoursOfSleep: averages[1],
+        averageMood: averages[2],
+        averageTiredness: averages[3],
+      }
+
+      res.status(200).json({ ...data, ...sleepAverages, dates: formattedData })
+    } else {
+      res.status(200).json({ ...data, dates: formattedData })
+    }
   } catch (error) {
     next(
       new DatabaseError({

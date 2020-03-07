@@ -52,6 +52,7 @@ describe('moods model', () => {
 
       expect(
         await find(
+          1,
           new Date(
             Number(startDate[2]),
             Number(startDate[0]) - 1,

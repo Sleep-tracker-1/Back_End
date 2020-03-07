@@ -12,12 +12,15 @@ export type Tired = {
 }
 
 export const find = (
+  userId: Id,
   startDate: Date = sub(new Date(), { days: 30 }),
   endDate: Date = new Date()
 ): QueryBuilder<[Tired]> =>
-  db('tiredness')
-    .join('bedhours', 'tiredness.night_id', 'bedhours.id')
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
+    .join('tiredness', 'tiredness.night_id', 'bedhours.id')
     .select(
       'tiredness.id as id',
       'tiredness.wake_tired as wakeTired',
@@ -26,9 +29,12 @@ export const find = (
       'tiredness.night_id as nightId'
     )
 
-export const findById = (id: Id): QueryBuilder<Tired> =>
-  db('tiredness')
-    .where({ id })
+export const findById = (userId: Id, nightId: Id): QueryBuilder<Tired> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .where({ 'bedhours.id': nightId })
+    .join('tiredness', 'tiredness.night_id', 'bedhours.id')
     .first()
     .select(
       'tiredness.id as id',
@@ -74,7 +80,7 @@ export const update = (
         night_id: tired.nightId,
       },
       [
-        'id',
+        'tiredness.id as tirednessId',
         'wake_tired as wakeTired',
         'midday_tired as middayTired',
         'night_tired as nightTired',
