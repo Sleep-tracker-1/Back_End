@@ -117,7 +117,7 @@ describe('moods model', () => {
       await insert(buildMood(2, null, null, 1))
       await insert(buildMood(null, 1, null, 1))
 
-      expect(await findById(2)).toEqual({
+      expect(await findById(1, 2)).toEqual({
         id: 2,
         wakeMood: null,
         middayMood: 1,
@@ -203,7 +203,7 @@ describe('moods model', () => {
       await insert(mood3)
 
       expect(await remove(2)).toEqual(1)
-      expect(await findById(2)).toBeUndefined()
+      expect(await findById(1, 2)).toBeUndefined()
     })
   })
 })

@@ -15,12 +15,10 @@ const addMidday = async (
 
     const addMood = await updateMood(dateToUpdate.id, {
       middayMood: req.body.mood,
-      nightId: dateToUpdate.id,
     })
 
     const addTired = await updateTired(dateToUpdate.id, {
       middayTired: req.body.tiredness,
-      nightId: dateToUpdate.id,
     })
 
     res.status(200).json({ addMood, addTired })

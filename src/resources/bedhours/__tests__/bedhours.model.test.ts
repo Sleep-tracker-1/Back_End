@@ -167,7 +167,7 @@ describe('bedhours model', () => {
       await insert(bedHour2)
       await insert(bedHour3)
 
-      expect(await remove(1, 2)).toEqual(1)
+      expect(await remove(2)).toEqual(1)
       expect(await findById(1, 2)).toBeUndefined()
     })
   })

@@ -21,13 +21,11 @@ const addWake = async (
 
     const addMood = await updateMood(dateToUpdate.id, {
       wakeMood: req.body.mood,
-      nightId: dateToUpdate.id,
     })
     console.log({ addMood })
 
-    const addTired = await updateTired(req.decodedJwt!.subject, {
+    const addTired = await updateTired(dateToUpdate.id, {
       wakeTired: req.body.tiredness,
-      nightId: dateToUpdate.id,
     })
 
     console.log({ addTired })
