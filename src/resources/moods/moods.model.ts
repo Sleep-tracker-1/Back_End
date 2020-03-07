@@ -28,9 +28,12 @@ export const find = (
       'mood.night_id as nightId'
     )
 
-export const findById = (id: Id): QueryBuilder<Mood> =>
-  db('mood')
-    .where({ id })
+export const findById = (userId: Id, nightId: Id): QueryBuilder<Mood> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .where({ 'bedhours.id': nightId })
+    .join('mood', 'mood.night_id', 'bedhours.id')
     .first()
     .select(
       'mood.id as id',
@@ -58,22 +61,20 @@ export const insert = (mood: Omit<Mood, 'id'>): QueryBuilder<[Mood]> =>
   )
 
 export const update = (
-  id: Id,
+  nightId: Id,
   mood: {
     wakeMood?: number | null
     middayMood?: number | null
     nightMood?: number | null
-    nightId: Id
   }
 ): QueryBuilder<[Mood]> =>
   db('mood')
-    .where({ night_id: Number(mood.nightId) })
+    .where({ night_id: Number(nightId) })
     .update(
       {
         wake_mood: mood.wakeMood,
         midday_mood: mood.middayMood,
         night_mood: mood.nightMood,
-        night_id: mood.nightId,
       },
       [
         'mood.id as moodId',
@@ -84,9 +85,13 @@ export const update = (
       ]
     )
 
-export const remove = (id: Id): QueryBuilder<number> =>
+export const remove = (nightId: Id): QueryBuilder<number> =>
   db('mood')
-    .where({ id })
-    .del()
+    .where({ night_id: Number(nightId) })
+    .update({
+      wake_mood: null,
+      midday_mood: null,
+      night_mood: null,
+    })
 
 export default { find, findById, insert, update, remove }

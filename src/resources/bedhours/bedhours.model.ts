@@ -82,7 +82,7 @@ export const update = (
       ['id', 'bedtime', 'waketime', 'user_id as userId']
     )
 
-export const remove = (userId: Id, id: Id): QueryBuilder<number> =>
+export const remove = (id: Id): QueryBuilder<number> =>
   db('bedhours')
     .where({ id })
     .del()

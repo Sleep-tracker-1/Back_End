@@ -11,7 +11,7 @@ type Model = {
   findById: (userId: Id, id: Id) => QueryBuilder<any>
   insert: (item: any, userId?: Id) => QueryBuilder<[any]>
   update: (id: Id, item: any, userId?: Id) => QueryBuilder<[any]>
-  remove: (userId: Id, id: Id) => QueryBuilder<number>
+  remove: (id: Id) => QueryBuilder<number>
 }
 
 export const getMany = (model: Model) => async (
@@ -81,14 +81,16 @@ export const updateOne = (model: Model) => async (
 ): Promise<void> => {
   try {
     const updated = req.baseUrl.includes('/bedhours')
-      ? await model.update(req.decodedJwt!.subject, req.params.id, {
+      ? await model.update(req.params.id, {
           ...req.body,
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           userId: req.decodedJwt!.subject,
         })
-      : await model.update(req.decodedJwt!.subject, req.params.id, req.body)
+      : await model.update(req.params.id, req.body)
+
     res.status(200).json(updated)
   } catch (error) {
+    console.error(error)
     next(
       new DatabaseError({
         message: 'Could not update item',
@@ -104,9 +106,10 @@ export const removeOne = (model: Model) => async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await model.remove(req.decodedJwt!.subject, req.params.id)
+    await model.remove(req.params.id)
     res.status(200).json({ message: `This item has been deleted` })
   } catch (error) {
+    console.error(error)
     next(
       new DatabaseError({
         message: 'Could not remove item',
