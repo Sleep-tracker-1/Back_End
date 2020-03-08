@@ -1,7 +1,6 @@
 import Knex, { QueryBuilder } from 'knex'
 import faker from 'faker'
 import bcrypt from 'bcrypt'
-import getRandomNumber from '../../utils/randomNumberGenerator'
 
 const generateUsers = (
   size: number
@@ -15,10 +14,7 @@ const generateUsers = (
     const firstName = faker.name.firstName()
     return {
       username: faker.internet.userName(firstName),
-      password: bcrypt.hashSync(
-        faker.internet.password(getRandomNumber(6, 18)),
-        10
-      ),
+      password: bcrypt.hashSync(`${firstName}password`, 10),
       first_name: firstName,
       email: faker.internet.email(firstName, faker.name.lastName()),
     }

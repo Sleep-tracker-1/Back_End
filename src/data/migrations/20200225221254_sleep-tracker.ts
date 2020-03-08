@@ -18,8 +18,8 @@ export const up = (knex: Knex): SchemaBuilder =>
 
     .createTable('bedhours', table => {
       table.increments()
-      table.dateTime('bedtime').notNullable()
-      table.dateTime('waketime').notNullable()
+      table.dateTime('bedtime')
+      table.dateTime('waketime')
       table
         .integer('user_id')
         .unsigned()
