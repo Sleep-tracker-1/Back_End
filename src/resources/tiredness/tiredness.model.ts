@@ -44,7 +44,7 @@ export const findById = (userId: Id, nightId: Id): QueryBuilder<Tired> =>
       'tiredness.night_id as nightId'
     )
 
-export const insert = (tired: Omit<Tired, 'id'>): QueryBuilder<[Tired]> =>
+export const insert = (tired: Omit<Tired, 'id'>): QueryBuilder<Tired> =>
   db('tiredness').insert(
     {
       wake_tired: tired.wakeTired,
@@ -68,7 +68,7 @@ export const update = (
     middayTired?: number | null
     nightTired?: number | null
   }
-): QueryBuilder<[Tired]> =>
+): QueryBuilder<Tired> =>
   db('tiredness')
     .where({ night_id: Number(nightId) })
     .update(

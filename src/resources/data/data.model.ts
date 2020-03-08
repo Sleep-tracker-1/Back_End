@@ -39,12 +39,4 @@ export const getAllData = (
     )
     .orderBy('bedhours.waketime', 'asc')
 
-export const findAnyNull = (userId: number) =>
-  db('user')
-    .join('bedhours', 'user.id', 'bedhours.user_id')
-    .join('mood', 'mood.night_id', 'bedhours.id')
-    .join('tiredness', 'tiredness.night_id', 'bedhours.id')
-    .where('user.id', userId)
-    .select('*')
-
-export default { getAllData, findAnyNull }
+export default { getAllData }

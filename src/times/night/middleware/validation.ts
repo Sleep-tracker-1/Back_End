@@ -8,7 +8,7 @@ import {
   ValidationError,
 } from '../../../utils/validator'
 import { findBedtime as findBedhours } from '../../../resources/bedhours/bedhours.model'
-import { AuthorizationRequest } from '../../../auth/middleware/checkAuth'
+import { UnauthorizedError } from '../../../server/middleware/errorHandler'
 
 const { Success } = Validation
 
@@ -17,16 +17,19 @@ const hasTime = (req: Request): boolean => !!req.body.time
 const hasMood = (req: Request): boolean => !!req.body.mood
 const hasTiredness = (req: Request): boolean => !!req.body.tiredness
 
-const checkDate = async (req: AuthorizationRequest): Promise<boolean> => {
-  const bedHours = await findBedhours(
-    req.decodedJwt!.subject,
-    sub(new Date(req.body.time), { years: 100 }),
-    new Date(req.body.time)
-  )
+const checkDate = async (req: Request): Promise<boolean> => {
+  if (typeof req.decodedJwt !== 'undefined') {
+    const bedHours = await findBedhours(
+      req.decodedJwt.subject,
+      sub(new Date(req.body.time), { years: 100 }),
+      new Date(req.body.time)
+    )
 
-  return !bedHours
-    .map(date => differenceInHours(new Date(req.body.time), date.bedtime))
-    .some(time => time < 12)
+    return !bedHours
+      .map(date => differenceInHours(new Date(req.body.time), date.bedtime))
+      .some(time => time < 12)
+  }
+  throw new UnauthorizedError()
 }
 
 const bodyValidator = validator('Missing data', hasBody)

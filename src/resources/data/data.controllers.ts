@@ -54,7 +54,8 @@ const getData = async (
     }
 
     if (req.sleepData) {
-      const averages = req.sleepData[0].match(/\d+\.+\d+/g).map(Number)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const averages = req.sleepData[0].match(/\d+\.+\d+/g)!.map(Number)
       const sleepAverages = {
         sleepRecommendation: averages[0],
         averageHoursOfSleep: averages[1],

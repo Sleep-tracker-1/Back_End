@@ -1,27 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 import { QueryBuilder } from 'knex'
-import { DatabaseError } from '../server/middleware/errorHandler'
-import { AuthorizationRequest } from '../auth/middleware/checkAuth'
+import {
+  DatabaseError,
+  UnauthorizedError,
+} from '../server/middleware/errorHandler'
 
 export type Id = number | string | undefined
 
 type Model = {
   find: (userId: Id, startDate?: Date, endDate?: Date) => QueryBuilder
-  findById: (userId: Id, id: Id) => QueryBuilder<any>
-  insert: (item: any, userId?: Id) => QueryBuilder<[any]>
-  update: (id: Id, item: any, userId?: Id) => QueryBuilder<[any]>
-  remove: (id: Id) => QueryBuilder<number>
+  findById: (userId: Id, nightId: Id) => QueryBuilder<any>
+  insert: (item: any) => QueryBuilder<any>
+  update: (nightId: Id, item: any, userId?: Id) => QueryBuilder<any>
+  remove: (nightId: Id) => QueryBuilder<number>
 }
 
 export const getMany = (model: Model) => async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const items = await model.find(req.decodedJwt!.subject)
-    res.status(200).json(items)
+    if (typeof req.decodedJwt !== 'undefined') {
+      const items = await model.find(req.decodedJwt.subject)
+      res.status(200).json(items)
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     next(
       new DatabaseError({
@@ -33,13 +39,17 @@ export const getMany = (model: Model) => async (
 }
 
 export const getOne = (model: Model) => async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const item = await model.findById(req.decodedJwt!.subject, req.params.id)
-    res.status(200).json(item)
+    if (typeof req.decodedJwt !== 'undefined') {
+      const item = await model.findById(req.decodedJwt.subject, req.params.id)
+      res.status(200).json(item)
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     next(
       new DatabaseError({
@@ -51,19 +61,22 @@ export const getOne = (model: Model) => async (
 }
 
 export const createOne = (model: Model) => async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const [item] = req.baseUrl.includes('/bedhours')
-      ? await model.insert(req.decodedJwt!.subject, {
-          ...req.body,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          userId: req.decodedJwt!.subject,
-        })
-      : await model.insert(req.decodedJwt!.subject, req.body)
-    res.status(201).json(item)
+    if (typeof req.decodedJwt !== 'undefined') {
+      const [item] = req.baseUrl.includes('/bedhours')
+        ? await model.insert({
+            ...req.body,
+            userId: req.decodedJwt.subject,
+          })
+        : await model.insert(req.body)
+      res.status(201).json(item)
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     next(
       new DatabaseError({
@@ -75,20 +88,23 @@ export const createOne = (model: Model) => async (
 }
 
 export const updateOne = (model: Model) => async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const updated = req.baseUrl.includes('/bedhours')
-      ? await model.update(req.params.id, {
-          ...req.body,
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          userId: req.decodedJwt!.subject,
-        })
-      : await model.update(req.params.id, req.body)
+    if (typeof req.decodedJwt !== 'undefined') {
+      const updated = req.baseUrl.includes('/bedhours')
+        ? await model.update(req.params.id, {
+            ...req.body,
+            userId: req.decodedJwt.subject,
+          })
+        : await model.update(req.params.id, req.body)
 
-    res.status(200).json(updated)
+      res.status(200).json(updated)
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     console.error(error)
     next(
@@ -101,7 +117,7 @@ export const updateOne = (model: Model) => async (
 }
 
 export const removeOne = (model: Model) => async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

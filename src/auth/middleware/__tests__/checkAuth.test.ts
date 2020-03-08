@@ -1,9 +1,10 @@
-import * as faker from 'faker'
-import checkAuth, { AuthorizationRequest } from '../checkAuth'
+import { Request } from 'express'
+import faker from 'faker'
 import { UnauthorizedError } from '../../../server/middleware/errorHandler'
 import { buildNext, MockResponse } from '../../../utils/test/generate'
 import { ValidationError } from '../../../utils/validator'
 import { generateToken } from '../../auth.controllers'
+import checkAuth from '../checkAuth'
 
 describe('checkAuth', () => {
   const res = {
@@ -20,7 +21,7 @@ describe('checkAuth', () => {
       decodedJwt: {
         subject: 1,
       },
-    } as AuthorizationRequest
+    } as Request
 
     checkAuth(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)
@@ -34,7 +35,7 @@ describe('checkAuth', () => {
       headers: {
         authorization: 'faketoken',
       },
-    } as AuthorizationRequest
+    } as Request
 
     checkAuth(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)
@@ -48,7 +49,7 @@ describe('checkAuth', () => {
       headers: {
         authorization: generateToken(1, faker.internet.userName()),
       },
-    } as AuthorizationRequest
+    } as Request
 
     checkAuth(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)
@@ -60,7 +61,7 @@ describe('checkAuth', () => {
   it('should call next with Validation error for missing token if there is no token', () => {
     const req = {
       headers: {},
-    } as AuthorizationRequest
+    } as Request
 
     checkAuth(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)
