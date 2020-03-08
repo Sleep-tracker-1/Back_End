@@ -16,8 +16,10 @@ const getData = async (
       : '1-1-1900'.split('-')
     const end = req.query.end ? req.query.end.split('-') : '1-1-2040'.split('-')
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const userInfo = await findById(req.decodedJwt!.subject)
     const sleepData = await getAllData(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       req.decodedJwt!.subject,
       new Date(start[2], start[0] - 1, start[1]),
       new Date(end[2], end[0] - 1, end[1])

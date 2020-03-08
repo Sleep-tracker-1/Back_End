@@ -7,8 +7,8 @@ import controllers from '../users.controllers'
 import { buildNext, MockResponse } from '../../../utils/test/generate'
 import {
   DatabaseError,
-  UnauthorizedError
-} from "../../../server/middleware/errorHandler"
+  UnauthorizedError,
+} from '../../../server/middleware/errorHandler'
 
 describe('/user', () => {
   beforeEach(() => db.raw('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE'))

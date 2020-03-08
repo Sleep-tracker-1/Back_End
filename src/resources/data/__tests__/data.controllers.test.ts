@@ -3,7 +3,9 @@ import server from '../../../server/server'
 import db from '../../../data/dbConfig'
 
 beforeEach(() =>
-  db.raw('TRUNCATE TABLE "user", bedhours, mood, tiredness RESTART IDENTITY CASCADE')
+  db.raw(
+    'TRUNCATE TABLE "user", bedhours, mood, tiredness RESTART IDENTITY CASCADE'
+  )
 )
 
 describe('/data', () => {
