@@ -12,7 +12,6 @@ import {
   checkValidation,
 } from '../validation'
 import { buildNext, MockResponse } from '../../../utils/test/generate'
-import { AuthorizationRequest } from '../checkAuth'
 import { ValidationError } from '../../../utils/validator'
 
 describe('request checkers', () => {
@@ -217,7 +216,7 @@ describe('checkValidation', () => {
         firstName: faker.name.firstName(),
         email: faker.internet.email(),
       },
-    } as AuthorizationRequest
+    } as Request
 
     checkValidation(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)
@@ -230,7 +229,7 @@ describe('checkValidation', () => {
     const req = {
       path: '/api/auth/register',
       body: {},
-    } as AuthorizationRequest
+    } as Request
 
     checkValidation(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)
@@ -270,7 +269,7 @@ describe('checkValidation', () => {
     const req = {
       path: '/api/auth/login',
       body: {},
-    } as AuthorizationRequest
+    } as Request
 
     checkValidation(req, res, next)
     expect(next).toHaveBeenCalledTimes(1)

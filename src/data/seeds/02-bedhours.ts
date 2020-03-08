@@ -1,5 +1,5 @@
 import Knex, { QueryBuilder } from 'knex'
-import { add, format } from 'date-fns'
+import { add } from 'date-fns'
 import getRandomNumber from '../../utils/randomNumberGenerator'
 
 const generateTimestamps = (): {

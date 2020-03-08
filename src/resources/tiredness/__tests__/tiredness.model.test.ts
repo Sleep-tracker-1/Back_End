@@ -1,4 +1,3 @@
-import { add } from 'date-fns'
 import { buildBedhour, buildTired } from '../../../utils/test/generate'
 import db from '../../../data/dbConfig'
 import { insert as insertBedhours } from '../../bedhours/bedhours.model'
@@ -22,7 +21,7 @@ describe('tired model', () => {
         1
       )
       const bedHour3 = buildBedhour(
-        { year: 2020, month: 2, date: 27, hours: 20, minutes: 23, seconds: 7 },
+        { year: 2020, month: 4, date: 29, hours: 20, minutes: 23, seconds: 7 },
         { hours: 6, minutes: 1, seconds: 46 },
         1
       )
@@ -32,20 +31,12 @@ describe('tired model', () => {
       await insertBedhours(bedHour3)
 
       const tired1 = buildTired(2, null, null, 1)
-      const tired2 = buildTired(null, 1, null, 1)
-      const tired3 = buildTired(null, null, 4, 1)
-      const tired4 = buildTired(2, null, null, 2)
-      const tired5 = buildTired(null, null, 3, 2)
-      const tired6 = buildTired(null, null, 3, 3)
-      const tired7 = buildTired(1, null, null, 3)
+      const tired2 = buildTired(null, 1, null, 2)
+      const tired3 = buildTired(null, null, 4, 3)
 
       await insert(tired1)
       await insert(tired2)
       await insert(tired3)
-      await insert(tired4)
-      await insert(tired5)
-      await insert(tired6)
-      await insert(tired7)
 
       const startDate = '2-24-2020'.split('-')
       const endDate = '2-28-2020'.split('-')
@@ -79,27 +70,6 @@ describe('tired model', () => {
           nightTired: tired2.nightTired,
           nightId: tired2.nightId,
         },
-        {
-          id: 3,
-          wakeTired: tired3.wakeTired,
-          middayTired: tired3.middayTired,
-          nightTired: tired3.nightTired,
-          nightId: tired3.nightId,
-        },
-        {
-          id: 4,
-          wakeTired: tired4.wakeTired,
-          middayTired: tired4.middayTired,
-          nightTired: tired4.nightTired,
-          nightId: tired4.nightId,
-        },
-        {
-          id: 5,
-          wakeTired: tired5.wakeTired,
-          middayTired: tired5.middayTired,
-          nightTired: tired5.nightTired,
-          nightId: tired5.nightId,
-        },
       ])
     })
   })
@@ -111,18 +81,24 @@ describe('tired model', () => {
         { hours: 7, minutes: 12, seconds: 38 },
         1
       )
+      const bedHour2 = buildBedhour(
+        { year: 2020, month: 1, date: 27, hours: 20, minutes: 23, seconds: 7 },
+        { hours: 6, minutes: 1, seconds: 46 },
+        1
+      )
 
       await insertBedhours(bedHour1)
+      await insertBedhours(bedHour2)
 
       await insert(buildTired(2, null, null, 1))
-      await insert(buildTired(null, 1, null, 1))
+      await insert(buildTired(null, 1, null, 2))
 
       expect(await findById(1, 2)).toEqual({
         id: 2,
         wakeTired: null,
         middayTired: 1,
         nightTired: null,
-        nightId: 1,
+        nightId: 2,
       })
     })
   })
@@ -172,7 +148,7 @@ describe('tired model', () => {
 
       const tiredToUpdate = buildTired(3, null, null, 1)
 
-      expect(await update(2, tiredToUpdate)).toEqual([
+      expect(await update(1, tiredToUpdate)).toEqual([
         {
           id: 1,
           wakeTired: tiredToUpdate.wakeTired,
@@ -191,19 +167,37 @@ describe('tired model', () => {
         { hours: 7, minutes: 12, seconds: 38 },
         1
       )
+      const bedHour2 = buildBedhour(
+        { year: 2020, month: 1, date: 27, hours: 20, minutes: 23, seconds: 7 },
+        { hours: 6, minutes: 1, seconds: 46 },
+        1
+      )
+      const bedHour3 = buildBedhour(
+        { year: 2020, month: 4, date: 29, hours: 20, minutes: 23, seconds: 7 },
+        { hours: 6, minutes: 1, seconds: 46 },
+        1
+      )
 
       await insertBedhours(bedHour1)
+      await insertBedhours(bedHour2)
+      await insertBedhours(bedHour3)
 
       const tired1 = buildTired(2, null, null, 1)
-      const tired2 = buildTired(null, 1, null, 1)
-      const tired3 = buildTired(null, null, 4, 1)
+      const tired2 = buildTired(null, 1, null, 2)
+      const tired3 = buildTired(null, null, 4, 3)
 
       await insert(tired1)
       await insert(tired2)
       await insert(tired3)
 
-      expect(await remove(1)).toEqual(1)
-      expect(await findById(1, 2)).toBeUndefined()
+      expect(await remove(2)).toEqual(1)
+      expect(await findById(1, 2)).toEqual({
+        id: 2,
+        wakeTired: null,
+        middayTired: null,
+        nightTired: null,
+        nightId: 2,
+      })
     })
   })
 })

@@ -1,25 +1,34 @@
-import { NextFunction, Response } from 'express'
-import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
+import { Request, NextFunction, Response } from 'express'
 import nightModel from './night.model'
-import { DatabaseError } from '../../server/middleware/errorHandler'
+import {
+  DatabaseError,
+  UnauthorizedError,
+} from '../../server/middleware/errorHandler'
 
 const addNight = async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const [nightTime] = await nightModel.insertTime(
-      req.body.time,
-      req.decodedJwt!.subject
-    )
-    const [nightMood] = await nightModel.insertMood(req.body.mood, nightTime.id)
-    const [nightTired] = await nightModel.insertTiredness(
-      req.body.tiredness,
-      nightTime.id
-    )
+    if (typeof req.decodedJwt !== 'undefined') {
+      const [nightTime] = await nightModel.insertTime(
+        req.body.time,
+        req.decodedJwt.subject
+      )
+      const [nightMood] = await nightModel.insertMood(
+        req.body.mood,
+        nightTime.id
+      )
+      const [nightTired] = await nightModel.insertTiredness(
+        req.body.tiredness,
+        nightTime.id
+      )
 
-    res.status(201).json({ nightTime, nightMood, nightTired })
+      res.status(201).json({ nightTime, nightMood, nightTired })
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     next(
       new DatabaseError({

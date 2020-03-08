@@ -9,12 +9,12 @@ import {
 
 const { Success } = Validation
 
-const hasBedorWakeTime = (req: Request): boolean =>
-  !!req.body || !!req.body.waketime || !!req.body.bedtime
+const hasBedOrWakeTime = (req: Request): boolean =>
+  !!req.body && (!!req.body.waketime || !!req.body.bedtime)
 
 export const bedWakeTimeValidator = validator(
   'Missing bedtime or waketime',
-  hasBedorWakeTime
+  hasBedOrWakeTime
 )
 
 export const validationResult = (req: Request): Matcher =>

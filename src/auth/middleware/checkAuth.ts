@@ -10,15 +10,7 @@ type DecodedJwt = {
   exp: number
 }
 
-export interface AuthorizationRequest extends Request {
-  decodedJwt?: DecodedJwt
-}
-
-const checkAuth = (
-  req: AuthorizationRequest,
-  _res: Response,
-  next: NextFunction
-): void => {
+const checkAuth = (req: Request, _res: Response, next: NextFunction): void => {
   const token = req.headers.authorization
 
   if (req.decodedJwt) {
