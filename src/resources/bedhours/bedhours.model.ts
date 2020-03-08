@@ -53,7 +53,7 @@ export const insert = (bedhour: {
   waketime: Date
   bedtime: Date
   userId: number | undefined
-}): QueryBuilder<[Bedhour]> =>
+}): QueryBuilder<Bedhour> =>
   db('bedhours').insert(
     {
       bedtime: bedhour.bedtime,
@@ -70,7 +70,7 @@ export const update = (
     bedtime: Date
     userId: number | undefined
   }
-): QueryBuilder<[Bedhour]> =>
+): QueryBuilder<Bedhour> =>
   db('bedhours')
     .where({ id })
     .update(

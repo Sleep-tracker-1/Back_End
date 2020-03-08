@@ -1,20 +1,25 @@
-import { Response, NextFunction } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { findById, remove } from './users.model'
-import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
-import { DatabaseError } from '../../server/middleware/errorHandler'
+import {
+  DatabaseError,
+  UnauthorizedError,
+} from '../../server/middleware/errorHandler'
 
 const getUser = async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    // Don't want to ever respond with the user's hashed password
-    const { password, firstName, ...user } = await findById(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      req.decodedJwt!.subject
-    )
-    res.status(200).json({ firstName, ...user })
+    if (typeof req.decodedJwt !== 'undefined') {
+      // Don't want to ever respond with the user's hashed password
+      const { password, firstName, ...user } = await findById(
+        req.decodedJwt.subject
+      )
+      res.status(200).json({ firstName, ...user })
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     next(
       new DatabaseError({
@@ -26,13 +31,17 @@ const getUser = async (
 }
 
 const deleteUser = async (
-  req: AuthorizationRequest,
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    await remove(req.decodedJwt!.subject)
-    res.status(200).json({ message: 'User deleted' })
+    if (typeof req.decodedJwt !== 'undefined') {
+      await remove(req.decodedJwt.subject)
+      res.status(200).json({ message: 'User deleted' })
+    } else {
+      next(new UnauthorizedError())
+    }
   } catch (error) {
     next(
       new DatabaseError({

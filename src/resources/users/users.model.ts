@@ -26,7 +26,7 @@ export const findById = (id: Id): QueryBuilder<User> =>
 export const insert = ({
   firstName,
   ...rest
-}: Omit<User, 'id'>): QueryBuilder<[User]> =>
+}: Omit<User, 'id'>): QueryBuilder<User> =>
   db('user').insert({ first_name: firstName, ...rest }, [
     'id',
     'username',
