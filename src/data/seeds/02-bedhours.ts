@@ -27,7 +27,6 @@ const generateTimestamps = (): {
         user_id: userIndex + 1,
         bedtime,
         waketime,
-        wake_date: format(waketime, 'yyyy-MM-dd'),
       }
     })
   })

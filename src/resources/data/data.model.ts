@@ -23,11 +23,10 @@ export const getAllData = (
   db('user')
     .where('user.id', userId)
     .join('bedhours', 'user.id', 'bedhours.user_id')
-    .whereBetween('bedhours.wake_date', [startDate, endDate])
+    .whereBetween('bedhours.waketime', [startDate, endDate])
     .join('mood', 'mood.night_id', 'bedhours.id')
     .join('tiredness', 'tiredness.night_id', 'bedhours.id')
     .select(
-      'bedhours.wake_date as date',
       'bedhours.id as dateId',
       'bedhours.waketime',
       'mood.wake_mood as wakeMood',
@@ -38,5 +37,14 @@ export const getAllData = (
       'mood.night_mood as nightMood',
       'tiredness.night_tired as nightTired'
     )
+    .orderBy('bedhours.waketime', 'asc')
 
-export default { getAllData }
+export const findAnyNull = (userId: number) =>
+  db('user')
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .join('mood', 'mood.night_id', 'bedhours.id')
+    .join('tiredness', 'tiredness.night_id', 'bedhours.id')
+    .where('user.id', userId)
+    .select('*')
+
+export default { getAllData, findAnyNull }

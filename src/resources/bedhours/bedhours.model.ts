@@ -8,50 +8,59 @@ export type Bedhour = {
   id: Id
   bedtime: Date
   waketime: Date
-  wakeDate: string
   userId: Id
 }
 
 export const find = (
+  userId: Id,
   startDate: Date = sub(new Date(), { days: 30 }),
   endDate: Date = new Date()
-): QueryBuilder =>
-  db('bedhours')
+): QueryBuilder<[Bedhour]> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
-    .select(
-      'id',
-      'bedtime',
-      'waketime',
-      'wake_date as wakeDate',
-      'user_id as userId'
-    )
+    .select('bedhours.id as id', 'bedtime', 'waketime', 'user_id as userId')
 
-export const findById = (id: Id): QueryBuilder<Bedhour> =>
-  db('bedhours')
-    .where({ id })
+export const findWaketimeFromMidday = (userId: Id): QueryBuilder<[Bedhour]> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .select('bedhours.id as id')
+    .orderBy('bedhours.id', 'desc')
+    .limit(1)
+
+export const findBedtime = async (
+  userId: Id,
+  startDate: Date,
+  endDate: Date
+): Promise<Bedhour[]> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .whereBetween('bedtime', [startDate, endDate])
+    .select('bedhours.id', 'bedtime')
+
+export const findById = (userId: Id, id: Id): QueryBuilder<Bedhour> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .where({ 'bedhours.id': id })
     .first()
-    .select(
-      'id',
-      'bedtime',
-      'waketime',
-      'wake_date as wakeDate',
-      'user_id as userId'
-    )
+    .select('bedhours.id as id', 'bedtime', 'waketime', 'user_id as userId')
 
 export const insert = (bedhour: {
   waketime: Date
   bedtime: Date
-  wakeDate: string
   userId: number | undefined
 }): QueryBuilder<[Bedhour]> =>
   db('bedhours').insert(
     {
       bedtime: bedhour.bedtime,
       waketime: bedhour.waketime,
-      wake_date: bedhour.wakeDate,
       user_id: bedhour.userId,
     },
-    ['id', 'bedtime', 'waketime', 'wake_date as wakeDate', 'user_id as userId']
+    ['id', 'bedtime', 'waketime', 'user_id as userId']
   )
 
 export const update = (
@@ -59,7 +68,6 @@ export const update = (
   bedHour: {
     waketime: Date
     bedtime: Date
-    wakeDate: string
     userId: number | undefined
   }
 ): QueryBuilder<[Bedhour]> =>
@@ -69,16 +77,9 @@ export const update = (
       {
         bedtime: bedHour.bedtime,
         waketime: bedHour.waketime,
-        wake_date: bedHour.wakeDate,
         user_id: bedHour.userId,
       },
-      [
-        'id',
-        'bedtime',
-        'waketime',
-        'wake_date as wakeDate',
-        'user_id as userId',
-      ]
+      ['id', 'bedtime', 'waketime', 'user_id as userId']
     )
 
 export const remove = (id: Id): QueryBuilder<number> =>
@@ -88,6 +89,8 @@ export const remove = (id: Id): QueryBuilder<number> =>
 
 export default {
   find,
+  findBedtime,
+  findWaketimeFromMidday,
   findById,
   insert,
   update,

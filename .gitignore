@@ -7,3 +7,5 @@ yarn.lock
 typings/
 /build
 /coverage
+**/*__pycache__
+**/*venv

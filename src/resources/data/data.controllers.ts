@@ -1,11 +1,12 @@
 import { NextFunction, Response } from 'express'
-import { add, differenceInMinutes } from 'date-fns'
-import { AuthorizationRequest } from '../../auth/middleware/checkAuth'
+import { differenceInMinutes, format } from 'date-fns'
 import { findById } from '../users/users.model'
 import { getAllData, SleepData } from './data.model'
+import { DatabaseError } from '../../server/middleware/errorHandler'
+import { RequestWithData } from './middleware/sleepData'
 
 const getData = async (
-  req: AuthorizationRequest,
+  req: RequestWithData,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -18,15 +19,13 @@ const getData = async (
     const userInfo = await findById(req.decodedJwt!.subject)
     const sleepData = await getAllData(
       req.decodedJwt!.subject,
-      new Date(start[2], start[0], start[1]),
-      new Date(end[2], end[0], end[1])
+      new Date(start[2], start[0] - 1, start[1]),
+      new Date(end[2], end[0] - 1, end[1])
     )
-
-    console.log(new Date(start[2], start[0], start[1]))
 
     const formattedData = sleepData.map((night: SleepData) => {
       return {
-        date: night.date,
+        date: format(night.waketime, 'M/d/yy'),
         dateId: night.dateId,
         totalTimeInBed: (
           differenceInMinutes(night.waketime, night.bedtime) / 60
@@ -52,13 +51,28 @@ const getData = async (
       userId: userInfo.id,
       username: userInfo.username,
       email: userInfo.email,
-      sleepRecommendation: null,
-      dates: formattedData,
     }
 
-    res.status(200).json(data)
+    if (req.sleepData) {
+      const averages = req.sleepData[0].match(/\d+\.+\d+/g).map(Number)
+      const sleepAverages = {
+        sleepRecommendation: averages[0],
+        averageHoursOfSleep: averages[1],
+        averageMood: averages[2],
+        averageTiredness: averages[3],
+      }
+
+      res.status(200).json({ ...data, ...sleepAverages, dates: formattedData })
+    } else {
+      res.status(200).json({ ...data, dates: formattedData })
+    }
   } catch (error) {
-    console.error(error)
+    next(
+      new DatabaseError({
+        message: 'Could not retrieve items',
+        dbMessage: error,
+      })
+    )
   }
 }
 

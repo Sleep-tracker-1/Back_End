@@ -52,6 +52,7 @@ describe('tired model', () => {
 
       expect(
         await find(
+          1,
           new Date(
             Number(startDate[2]),
             Number(startDate[0]) - 1,
@@ -116,7 +117,7 @@ describe('tired model', () => {
       await insert(buildTired(2, null, null, 1))
       await insert(buildTired(null, 1, null, 1))
 
-      expect(await findById(2)).toEqual({
+      expect(await findById(1, 2)).toEqual({
         id: 2,
         wakeTired: null,
         middayTired: 1,
@@ -163,7 +164,6 @@ describe('tired model', () => {
           id: 1,
           bedtime: bedHour.bedtime,
           waketime: bedHour.waketime,
-          wakeDate: add(new Date(bedHour.wakeDate), { hours: 8 }),
           userId: bedHour.userId,
         },
       ])
@@ -172,7 +172,7 @@ describe('tired model', () => {
 
       const tiredToUpdate = buildTired(3, null, null, 1)
 
-      expect(await update(tiredToUpdate)).toEqual([
+      expect(await update(2, tiredToUpdate)).toEqual([
         {
           id: 1,
           wakeTired: tiredToUpdate.wakeTired,
@@ -202,8 +202,8 @@ describe('tired model', () => {
       await insert(tired2)
       await insert(tired3)
 
-      expect(await remove(2)).toEqual(1)
-      expect(await findById(2)).toBeUndefined()
+      expect(await remove(1)).toEqual(1)
+      expect(await findById(1, 2)).toBeUndefined()
     })
   })
 })
