@@ -78,7 +78,7 @@ export const update = (
         night_tired: tired.nightTired,
       },
       [
-        'tiredness.id as tirednessId',
+        'id',
         'wake_tired as wakeTired',
         'midday_tired as middayTired',
         'night_tired as nightTired',

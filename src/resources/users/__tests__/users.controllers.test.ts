@@ -5,7 +5,10 @@ import server from '../../../server/server'
 import db from '../../../data/dbConfig'
 import controllers from '../users.controllers'
 import { buildNext, MockResponse } from '../../../utils/test/generate'
-import { DatabaseError } from '../../../server/middleware/errorHandler'
+import {
+  DatabaseError,
+  UnauthorizedError
+} from "../../../server/middleware/errorHandler"
 
 describe('/user', () => {
   beforeEach(() => db.raw('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE'))
@@ -43,14 +46,7 @@ describe('/user', () => {
         status: jest.fn(() => res),
         json: jest.fn(() => res),
       } as MockResponse
-      const error = new DatabaseError({
-        message: 'Could not retrieve user',
-        dbMessage: {
-          errno: 2,
-          code: '345',
-          detail: 'errorrr',
-        },
-      })
+      const error = new UnauthorizedError()
 
       return request(server)
         .post('/api/auth/register')

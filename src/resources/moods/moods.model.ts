@@ -12,14 +12,15 @@ export type Mood = {
 }
 
 export const find = (
-  id: Id,
+  userId: Id,
   startDate: Date = sub(new Date(), { days: 30 }),
   endDate: Date = new Date()
 ): QueryBuilder<[Mood]> =>
-  db('mood')
-    .join('bedhours', 'mood.night_id', 'bedhours.id')
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
-    .andWhere({ id })
+    .join('mood', 'mood.night_id', 'bedhours.id')
     .select(
       'mood.id as id',
       'mood.wake_mood as wakeMood',
@@ -77,7 +78,7 @@ export const update = (
         night_mood: mood.nightMood,
       },
       [
-        'mood.id as moodId',
+        'id',
         'wake_mood as wakeMood',
         'midday_mood as middayMood',
         'night_mood as nightMood',

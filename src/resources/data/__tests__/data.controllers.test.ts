@@ -1,13 +1,10 @@
 import request from 'supertest'
-import faker from 'faker'
 import server from '../../../server/server'
 import db from '../../../data/dbConfig'
 
-// beforeEach(() =>
-//   db.raw(
-//     'TRUNCATE TABLE "user", bedhours, mood, tiredness RESTART IDENTITY CASCADE'
-//   )
-// )
+beforeEach(() =>
+  db.raw('TRUNCATE TABLE "user", bedhours, mood, tiredness RESTART IDENTITY CASCADE')
+)
 
 describe('/data', () => {
   describe('getAllUserData', () => {
@@ -18,9 +15,9 @@ describe('/data', () => {
       email: 'fellerwestley@gmail.com',
     }
 
-    it("should respond with a 200 code and all of the user's data from a specified time", () => {
-      return request(server)
-        .post('/api/auth/login')
+    it("should respond with a 200 code and all of the user's data from a specified time", () =>
+      request(server)
+        .post('/api/auth/register')
         .send(user)
         .then(response =>
           request(server)
@@ -30,8 +27,8 @@ describe('/data', () => {
               userId: 1,
               username: user.username,
               email: user.email,
+              dates: [],
             })
-        )
-    })
+        ))
   })
 })

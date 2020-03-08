@@ -13,13 +13,9 @@ const hasItemToUpdate = (req: Request): boolean =>
   !!req.body ||
   !!req.body.wakeMood ||
   !!req.body.middayMood ||
-  !!req.body.nightMood ||
-  !!req.body.nightId
+  !!req.body.nightMood
 
-const updateValidator = validator(
-  'Missing mood or nightId to update',
-  hasItemToUpdate
-)
+const updateValidator = validator('Missing mood', hasItemToUpdate)
 
 const validationResult = (req: Request): Matcher =>
   Success().concat(updateValidator(req))

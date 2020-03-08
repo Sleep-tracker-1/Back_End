@@ -77,10 +77,10 @@ describe('bedhours', () => {
           request(server)
             .post('/api/bedhours')
             .set({ Authorization: response.body.token })
-            .send({ bedtime: bedHours1.bedtime })
+            .send()
             .expect(400, {
               message: 'Submitted data is incomplete or incorrect',
-              errors: ['Missing waketime'],
+              errors: ['Missing bedtime or waketime'],
             })
         ))
   })
