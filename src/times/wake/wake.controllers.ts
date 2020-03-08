@@ -14,19 +14,21 @@ const addWake = async (
 ): Promise<void> => {
   try {
     const [dateToUpdate] = await findBedtime(
+      req.decodedJwt!.subject,
       sub(new Date(req.body.time), { days: 1 }),
       new Date(req.body.time)
     )
 
     const addMood = await updateMood(dateToUpdate.id, {
       wakeMood: req.body.mood,
-      nightId: dateToUpdate.id,
     })
+    console.log({ addMood })
 
     const addTired = await updateTired(dateToUpdate.id, {
       wakeTired: req.body.tiredness,
-      nightId: dateToUpdate.id,
     })
+
+    console.log({ addTired })
 
     const [wakeTime] = await wakeModel.updateTime(
       dateToUpdate.id,
@@ -35,8 +37,11 @@ const addWake = async (
       req.decodedJwt!.subject
     )
 
+    console.log({ wakeTime })
+
     res.status(201).json({ wakeTime, addMood, addTired })
   } catch (error) {
+    console.error(error)
     next(
       new DatabaseError({
         message: 'Could not update item',

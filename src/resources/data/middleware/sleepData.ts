@@ -3,6 +3,7 @@ import { PythonShell } from 'python-shell'
 import { sub } from 'date-fns'
 import { AuthorizationRequest } from '../../../auth/middleware/checkAuth'
 import { find } from '../../bedhours/bedhours.model'
+import { findAnyNull } from '../data.model'
 
 export type RequestWithData = AuthorizationRequest & {
   sleepData?: any
@@ -14,30 +15,31 @@ export const calculateSleepData = async (
   next: NextFunction
 ): Promise<void> => {
   const options = {
+    pythonPath: process.env.PYTHON_PATH,
     pythonOptions: ['-u'],
     args: [`${req.decodedJwt!.username}`],
   }
 
-  const bedHours = await find(sub(new Date(), { years: 100 }), new Date())
-  console.log({ bedHours: bedHours.length })
+  const bedHours = await find(
+    req.decodedJwt!.subject,
+    sub(new Date(), { years: 100 }),
+    new Date()
+  )
 
   if (bedHours.length > 30) {
     PythonShell.run(
-      '/app/dataScience/analysis.py',
+      `${process.env.SCRIPT_PATH || '/app/dataScience/analysis.py'}`,
       options,
       (error, results) => {
         if (error) {
-          console.log({ error })
           next(error)
         } else {
-          console.log({ results })
-          req.sleepData = [results]
+          req.sleepData = results
           next()
         }
       }
     )
   } else {
-    console.log('Not called')
     next()
   }
 }

@@ -12,32 +12,42 @@ export type Bedhour = {
 }
 
 export const find = (
+  userId: Id,
   startDate: Date = sub(new Date(), { days: 30 }),
   endDate: Date = new Date()
 ): QueryBuilder<[Bedhour]> =>
-  db('bedhours')
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
     .whereBetween('waketime', [startDate, add(endDate, { days: 1 })])
-    .select('id', 'bedtime', 'waketime', 'user_id as userId')
+    .select('bedhours.id as id', 'bedtime', 'waketime', 'user_id as userId')
 
-export const findWaketimeFromMidday = (): QueryBuilder<[Bedhour]> =>
-  db('bedhours')
-    .select('id')
-    .orderBy('id', 'desc')
+export const findWaketimeFromMidday = (userId: Id): QueryBuilder<[Bedhour]> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .select('bedhours.id as id')
+    .orderBy('bedhours.id', 'desc')
     .limit(1)
 
 export const findBedtime = async (
+  userId: Id,
   startDate: Date,
   endDate: Date
 ): Promise<Bedhour[]> =>
-  db('bedhours')
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
     .whereBetween('bedtime', [startDate, endDate])
-    .select('id', 'bedtime')
+    .select('bedhours.id', 'bedtime')
 
-export const findById = (id: Id): QueryBuilder<Bedhour> =>
-  db('bedhours')
-    .where({ id })
+export const findById = (userId: Id, id: Id): QueryBuilder<Bedhour> =>
+  db('user')
+    .where({ user_id: userId })
+    .join('bedhours', 'user.id', 'bedhours.user_id')
+    .where({ 'bedhours.id': id })
     .first()
-    .select('id', 'bedtime', 'waketime', 'user_id as userId')
+    .select('bedhours.id as id', 'bedtime', 'waketime', 'user_id as userId')
 
 export const insert = (bedhour: {
   waketime: Date

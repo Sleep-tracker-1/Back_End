@@ -11,16 +11,14 @@ const addMidday = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const [dateToUpdate] = await findWaketimeFromMidday()
+    const [dateToUpdate] = await findWaketimeFromMidday(req.decodedJwt!.subject)
 
     const addMood = await updateMood(dateToUpdate.id, {
       middayMood: req.body.mood,
-      nightId: dateToUpdate.id,
     })
 
     const addTired = await updateTired(dateToUpdate.id, {
       middayTired: req.body.tiredness,
-      nightId: dateToUpdate.id,
     })
 
     res.status(200).json({ addMood, addTired })

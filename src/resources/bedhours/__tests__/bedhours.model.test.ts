@@ -32,6 +32,7 @@ describe('bedhours model', () => {
 
       expect(
         await find(
+          1,
           new Date(
             Number(startDate[2]),
             Number(startDate[0]) - 1,
@@ -82,7 +83,7 @@ describe('bedhours model', () => {
       await insert(bedHour2)
       await insert(bedHour3)
 
-      expect(await findById(2)).toEqual({
+      expect(await findById(1, 2)).toEqual({
         id: 2,
         waketime: bedHour2.waketime,
         bedtime: bedHour2.bedtime,
@@ -167,7 +168,7 @@ describe('bedhours model', () => {
       await insert(bedHour3)
 
       expect(await remove(2)).toEqual(1)
-      expect(await findById(2)).toBeUndefined()
+      expect(await findById(1, 2)).toBeUndefined()
     })
   })
 })
